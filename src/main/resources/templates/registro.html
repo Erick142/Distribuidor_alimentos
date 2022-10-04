@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Registro</title>
+    <link th:href="@{css/index.css}" rel="stylesheet"/>
+</head>
+<body>
+    <nav th:insert="index::nav-var"></nav>
+    <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: #ECECEC;">
+        <form action="homedistribuidor" method="post" >
+            <legend style="text-align: center;" class="my-3 ">Registro</legend>
+            <div class="row my-3 justify-content-center">
+                <label for="inputUser" class="col-3">Nombre</label>
+                <div class="col-8">
+                    <input type="text" id="inputUser" name="nombre" class="form-control" required placeholder="ingresar correo nombre de usuario" minlength="4" autocomplete="off">
+                </div>
+            </div>
+            <div class="row my-3 justify-content-center">
+                <label for="inputCorreo" class="col-3">Correo electronico</label>
+                <div class="col-8">
+                    <input type="email" id="inputCorreo" name="email" class="form-control" required placeholder="ingresar correo electronico" autocomplete="off">
+                </div>
+            </div>
+            <div class="row my-3 justify-content-center">
+                <label for="inputContraseña" class="col-3">Contraseña</label>
+                <div class="col-8">
+                    <input type="password" id="inputContraseña" name="password" class="form-control" required placeholder="ingresar contraseña" minlength="5">
+                </div>
+            </div>
+            <div class="row my-3 ms-3">
+                <label class="form-check-label col-3 mt-1" for="administrador">Soy administrador</label>
+                <input type="checkbox" class="form-check-input col-8 ms-4 pt-4" id="administrador">   
+            </div>
+            <div class="row my-3 ">
+                <button type="submit" class="col-2 py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Registrarse</button>
+            </div>
+        </form>
+    </div>
+    <div class="container ">
+        <div class="row justify-content-center">
+            <img class="col-auto" src="img/logo2.png" style="height:  240px; width:240px;" alt="">
+        </div>
+    </div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
