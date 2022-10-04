@@ -5,12 +5,14 @@
 #textoBienvenida{
     font-size: large;
     font-weight: bold;
+    color: rgba(52, 129, 232, 0.9);
 }
 
 #bienvenido{
     text-align: center;
     font-weight: bold;
     font-size: 3rem;
+    color: rgba(52, 129, 232, 0.9);
 }
 
 #opcionesNav>li>a{
@@ -28,7 +30,7 @@ body {
 }
 
 #navbar{
-   background: linear-gradient(to right, #7ade56, rgba(255, 255, 255, 0));
+   background: linear-gradient(to right, #92bfef, rgba(255, 255, 255, 0));
 
 }
 
@@ -48,7 +50,7 @@ body {
     object-position: bottom;
     width: 100%;
     height: 6rem;
-    background: linear-gradient(to top, #7ade56, rgba(255, 255, 255, 0));
+    background: linear-gradient(to top, #92bfef, rgba(255, 255, 255, 0));
     clip-path: polygon(100% 0, 100% 100%, 0% 100%, 0 0, 50% 100%);
 }
 

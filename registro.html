@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg" id="navbar" style="background: linear-gradient(to right, #7ade56, rgba(255, 255, 255, 0));">
+        <nav class="navbar navbar-expand-lg" id="navbar">
             <div class="container-fluid">
                 <!--<img src="img/logo.png" width="30%" id="logo">-->
                 <a class="navbar-brand" href="#" id="nombreApp" style="color: white;
@@ -25,10 +25,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0 ms-auto" id="opcionesNav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Iniciar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Registrarse</a>
+                            <a class="nav-link active" aria-current="page" href="login.html">Iniciar sesión</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Sobre nosotros</a>
@@ -42,40 +39,51 @@
             </div>
         </nav>
     </header>
+
     <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: #ECECEC;">
-        <form action="" method="post" >
+
+        <form method="submit" id="formRegistro">
             <legend style="text-align: center;" class="my-3 ">Registro</legend>
-            <div class="row my-3 justify-content-center">
-                <label for="inputUser" class="col-3">Nombre</label>
-                <div class="col-8">
-                    <input type="text" id="inputUser" class="form-control" required placeholder="ingresar correo nombre de usuario" minlength="4" autocomplete="off">
-                </div>
+            <div class="form-group">
+                <label for="nombreReg" >Nombre(s)</label>
+                <input type="text" id="nombreReg" class="form-control" required placeholder="ingrese su nombre" minlength="4" autocomplete="off">
             </div>
-            <div class="row my-3 justify-content-center">
-                <label for="inputCorreo" class="col-3">Correo electronico</label>
-                <div class="col-8">
-                    <input type="email" id="inputCorreo" class="form-control" required placeholder="ingresar correo electronico" autocomplete="off">
-                </div>
+            <div class="form-group">
+                <label for="aPaternoReg">Apellido paterno</label>
+                <input type="text" id="aPaternoReg" class="form-control" required placeholder="ingrese su apellido paterno" minlength="4" autocomplete="off">
             </div>
-            <div class="row my-3 justify-content-center">
-                <label for="inputContraseña" class="col-3">Contraseña</label>
-                <div class="col-8">
-                    <input type="password" id="inputContraseña" class="form-control" required placeholder="ingresar contraseña" minlength="5">
-                </div>
+            <div class="form-group">
+                <label for="aMaternoReg">Apellido materno</label>
+                <input type="text" id="aMaternoReg" class="form-control" required placeholder="ingrese su apellido materno" minlength="4" autocomplete="off">
             </div>
-            <div class="row my-3 ms-3">
-                <label class="form-check-label col-3 mt-1" for="administrador">Soy administrador</label>
-                <input type="checkbox" class="form-check-input col-8 ms-4 pt-4" id="administrador">   
+            <div class="form-group">
+                <label for="nombreInstReg">Nombre de la Institución</label>
+                <input type="text" id="nombreInstReg" class="form-control" required placeholder="ingresar nombre de su institución" minlength="4" autocomplete="off">
             </div>
-            <div class="row my-3 ">
-                <a>
-
-                </a>
-                <button type="submit" class="col-2 py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Registrarse</button>
-
+            <div class="form-group">
+                <label for="telefonoReg">Teléfono</label>
+                <input type="number" id="telefonoReg" class="form-control" required placeholder="ingrese su número" minlength="4" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="correoReg">Correo electronico</label>
+                <input type="email" id="correoReg" class="form-control" required placeholder="ingresar correo electronico" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="passReg">Contraseña</label>
+                <input type="password" id="passReg" class="form-control" required placeholder="ingresar contraseña" minlength="5">
+            </div>
+            <div class="form-group pt-3">
+                <label class="form-check-label mt-1" for="administrador">Acepto los términos y condiciones</label>
+                <input type="checkbox" class="form-check-input ms-4 pt-4" id="terminos">
+                <label class="form-check-label mt-1" for="administrador">Soy administrador</label>
+                <input type="checkbox" class="form-check-input  ms-4 pt-4" id="administrador">
+            </div>
+            <div class="form-group">
+                <button type="submit" id="registro" class=" py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Registrarse</button>
             </div>
         </form>
     </div>
+
     <div class="container ">
         <div class="row justify-content-center">
             <img class="col-auto" src="img/logo2.png" style="height:  240px; width:240px;" alt="">
@@ -83,5 +91,9 @@
     </div>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+    <!--Script JS propio-->
+    <script type="module" src="script.js">
+    </script>
 </body>
 </html>

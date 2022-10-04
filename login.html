@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <title>Inicio de sesion</title>
-</head>
+    <link rel="stylesheet" href="styles.css"></head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg" id="navbar" style="background: linear-gradient(to right, #7ade56, rgba(255, 255, 255, 0));">
+        <nav class="navbar navbar-expand-lg" id="navbar">
             <div class="container-fluid">
                 <!--<img src="img/logo.png" width="30%" id="logo">-->
                 <a class="navbar-brand" href="index.html" id="nombreApp" style="color: white;
@@ -22,9 +22,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0 ms-auto" id="opcionesNav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="login.html">Iniciar sesión</a>
-                        </li>
+                        <br>
+                        <br>
                         <li class="nav-item">
                             <a class="nav-link active" href="registro.html">Registrarse</a>
                         </li>
@@ -41,22 +40,22 @@
         </nav>
     </header>
     <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: rgba(236,236,236,0.85);">
-        <form action="" method="post" >
+        <form method="submit" id="formLogin" >
             <legend style="text-align: center;" class="my-3 ">Iniciar sesion</legend>
             <div class="row my-3 justify-content-center">
-                <label for="inputCorreo" class="col-3">Correo electronico</label>
+                <label for="correoLogin" class="col-3">Correo electronico</label>
                 <div class="col-8">
-                    <input type="email" id="inputCorreo" class="form-control" required placeholder="ingresar correo electronico">
+                    <input type="text" id="correoLogin" class="form-control" required placeholder="ingresar correo electronico">
                 </div>
             </div>
             <div class="row my-3 justify-content-center">
-                <label for="inputContraseña" class="col-3">Contraseña</label>
+                <label for="passLogin" class="col-3">Contraseña</label>
                 <div class="col-8">
-                    <input type="password" id="inputContraseña" class="form-control" required placeholder="ingresar contraseña">
+                    <input type="password" id="passLogin" class="form-control" required placeholder="ingresar contraseña">
                 </div>
             </div>
             <div class="row my-3 ">
-                <button type="submit" class="col-2 py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; "><a href="userhome.html" style="text-decoration: none;color: white">Ingresar</a></button>
+                <button type="submit" class="col-2 py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px">Ingresar</button>
 
             </div>
             <div class="row">
@@ -73,6 +72,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
+
+<!--Script JS propio-->
+<script type="module" src="script.js">
+</script>
 
 <style>
     #opcionesNav>li>a{
