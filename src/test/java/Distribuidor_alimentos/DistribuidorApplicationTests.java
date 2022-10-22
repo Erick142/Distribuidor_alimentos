@@ -1,4 +1,4 @@
-package PA.distribuidor;
+package Distribuidor_alimentos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

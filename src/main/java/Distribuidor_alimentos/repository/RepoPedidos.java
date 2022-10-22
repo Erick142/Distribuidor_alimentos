@@ -1,19 +1,21 @@
-package PA.distribuidor.repository;
-import PA.distribuidor.model.Pedido;
-import org.springframework.stereotype.Repository;
+package Distribuidor_alimentos.repository;
+import Distribuidor_alimentos.model.Pedido;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class RepoPedidos {
     private List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
     public void nuevoPedido() {
         listaPedidos = List.of(
+                /*
                 new Pedido(1,"Estándar",120,"Esta es una nota de prueba 1","04/10/2022"),
                 new Pedido(2, "Hipocalórico",120,"Esta es una nota de prueba 2","02/07/2022"),
                 new Pedido(3, "Vegetariano",120,"Esta es una nota de prueba 3","03/08/2022")
+                 */
         );
     }
 

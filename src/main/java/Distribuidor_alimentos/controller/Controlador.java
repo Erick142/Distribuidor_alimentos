@@ -1,17 +1,15 @@
-package PA.distribuidor.controller;
-
-import PA.distribuidor.model.Registro;
+package Distribuidor_alimentos.controller;
+import Distribuidor_alimentos.model.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 
-@RestController
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class Controlador {
     @GetMapping("/")
     public String index(){
-        return "vernoticia";
+        return "index";
     }
     @GetMapping("/index")
     public String index2(){
@@ -107,5 +105,17 @@ public class Controller {
     @GetMapping("/estadisticas")
     public String estadisticas(){
         return "estadisticas";
+    }
+    @GetMapping("/error")
+    public String error(){
+        return "error";
+    }
+    @GetMapping("/exito")
+    public String exito(){
+        return "success";
+    }
+    @GetMapping("/confirmacion")
+    public String confirmacionRegistro(){
+        return "ConfirmacionRegistro";
     }
 }

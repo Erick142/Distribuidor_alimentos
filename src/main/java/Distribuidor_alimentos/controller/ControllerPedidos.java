@@ -1,12 +1,12 @@
-package PA.distribuidor.controller;
+package Distribuidor_alimentos.controller;
 
-import PA.distribuidor.model.Pedido;
-import PA.distribuidor.service.ServicioPedidos;
+import Distribuidor_alimentos.model.Pedido;
+import Distribuidor_alimentos.service.ServicioPedidos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
+//@RestController
 @RequestMapping("/pedido")
 public class ControllerPedidos {
 

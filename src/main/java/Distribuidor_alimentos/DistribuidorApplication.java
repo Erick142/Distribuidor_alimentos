@@ -1,8 +1,10 @@
-package PA.distribuidor;
-
+package Distribuidor_alimentos;
+import Distribuidor_alimentos.model.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+@EntityScan()
 @SpringBootApplication
 public class DistribuidorApplication {
 

@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link th:href="@{css/index.css}" rel="stylesheet"/>
+    <div th:replace="/fragments/head" :: head></div>
     <title>ver noticia</title>
 </head>
 <body style="overflow-x: hidden;" class="scrollred">
-    <nav th:insert="index::nav-var"></nav>
+<div th:replace="/fragments/navbar :: navbarSesionIniciada "></div>
 
     <div class="div row">
         <div class="col-12 col-md-12">

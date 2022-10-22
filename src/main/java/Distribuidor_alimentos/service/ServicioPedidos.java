@@ -1,15 +1,14 @@
-package PA.distribuidor.service;
+package Distribuidor_alimentos.service;
 
-import PA.distribuidor.model.Pedido;
-import PA.distribuidor.repository.RepoPedidos;
-import org.springframework.beans.factory.annotation.Autowired;
+import Distribuidor_alimentos.model.Pedido;
+import Distribuidor_alimentos.repository.RepoPedidos;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ServicioPedidos {
-    @Autowired
+   // @Autowired
     private RepoPedidos repository;
 
     public Pedido guardarPedido(Pedido pedido) {

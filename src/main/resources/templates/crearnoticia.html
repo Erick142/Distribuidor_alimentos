@@ -7,10 +7,10 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <title>Crear noticia</title>
-    <link th:href="@{css/index.css}" rel="stylesheet"/>
+    <link th:href="@{css/styles.css}" rel="stylesheet"/>
 </head> 
 <body style="overflow-x: hidden ;">
-    <nav th:insert="index::nav-var"></nav>
+    <div th:replace="/fragments/navbar :: navbarSesionIniciada"></div>
         <main class="row">
             <div class="col-12" style="display: flex;flex-direction: row-reverse;">
                 <div style="display:flex;flex-direction: row;">
@@ -25,11 +25,11 @@
                 <div class="col-7">
                     <div class="row mt-4 mx-2">
                         <label for="titulo" class="col-3" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Titulo</label>
-                        <input type="text" placeholder="introducir titulo" required class="col-7  redinput">
+                        <input id="titulo" type="text" placeholder="introducir titulo" required class="col-7  redinput">
                     </div>
                     <div class="row my-2     mx-2">
                         <label for="subtitulo" class="col-3" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Subtitulo</label>
-                        <input type="text" placeholder="introducir subtitulo" required class="col-7  redinput">
+                        <input id="subtitulo" type="text" placeholder="introducir subtitulo" required class="col-7  redinput">
                     </div>
                     <div class="row my-2     mx-2">
                         <label for="contenido" class="col-4" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Contenido</label>
@@ -74,6 +74,8 @@
                 </div>
             </form>
         </main>
+
+    <div th:replace="/fragments/footer :: footer"></div>
     <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
