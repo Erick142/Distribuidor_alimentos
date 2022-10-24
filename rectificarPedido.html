@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Distribuidor de alimentos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estadisticas.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container-fluid">
+    <!--<img src="img/logo.png" width="30%" id="logo">-->
+    <a class="navbar-brand" href="userhome.html" id="nombreApp">NombreApp
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto" id="opcionesNav">
+        <br>
+        <br>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Sobre nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Contáctenos</a>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-danger" style="border-radius: 30px" id="btnLogout">Desconectarse</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="container p-5 ">
+  <div class="row gx-5 ">
+    <div class="col-12 col-lg-12 p-5" id="rectificarPedido" >
+      <div class="p-3 m-2" style="background-color: #EE6055;border-radius: 30px">
+        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
+          <h2 style="text-align: center"> Rectificar pedido</h2>
+          <br>
+          <table id="tablaResumen" style="margin-left: auto; margin-right: auto">
+            <thead>
+            <tr>
+              <th>Tipo de menú</th>
+              <th>Cantidad</th>
+              <th>Fecha de entrega</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><div class="form-group">
+                <select class="form-control" >
+                  <option disabled>Seleccione tipo</option>
+                  <option selected>Estándar</option>
+                  <option>Hipocalórico</option>
+                  <option>Celíaco</option>
+                  <option>Vegetariano</option>
+                  <option>Vegano</option>
+                </select>
+              </div>
+              </td>
+
+              <td><div class="form-group">
+                <input type="number" value="235" min="1" max="1000" class="form-control" placeholder="Cantidad">
+              </div></td>
+
+              <td>
+                <input type="date" name="trip-start"
+                       value="2022-20-09"
+                       min="2022-21-09" max="2022-12-31">
+              </td>
+            </tr>
+
+            <tr>
+              <td><div class="form-group">
+                <select class="form-control">
+                  <option disabled>Seleccione tipo</option>
+                  <option>Estándar</option>
+                  <option>Hipocalórico</option>
+                  <option selected>Celíaco</option>
+                  <option>Vegetariano</option>
+                  <option>Vegano</option>
+                </select>
+              </div>
+              </td>
+
+              <td><div class="form-group">
+                <input type="number" value="20" min="1" max="1000" class="form-control" placeholder="Cantidad">
+              </div></td>
+
+              <td>
+                <input type="date" name="trip-start"
+                       value="2022-20-09"
+                       min="2022-21-09" max="2022-12-31">
+              </td>
+            </tr>
+
+            <tr>
+              <td><div class="form-group">
+                <select class="form-control" >
+                  <option disabled>Seleccione tipo</option>
+                  <option>Estándar</option>
+                  <option>Hipocalórico</option>
+                  <option>Celíaco</option>
+                  <option selected>Vegetariano</option>
+                  <option>Vegano</option>
+                </select>
+              </div>
+              </td>
+
+              <td><div class="form-group">
+                <input type="number" value="32" min="1" max="1000" class="form-control" placeholder="Cantidad">
+              </div></td>
+
+              <td>
+                <input type="date" name="trip-start"
+                       value="2022-20-09"
+                       min="2022-21-09" max="2022-12-31">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="anotaciones">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Anotaciones</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="row" style="text-align: center">
+          <div class="col-12 col-md-4 py-2 mx-auto"> <a href="success.html" style="text-decoration: none"><button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Confirmar</button>
+          </a></div>
+
+          <div class="col-12 col-md-4 py-2 mx-auto">
+            <a href="userhome.html" style="text-decoration: none"><button type="submit"  style="background-color: rgba(236,236,236,0.85); border:none; color: RED; border-radius: 14px; ">Cancelar</button>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+<!--Script JS propio-->
+<script type="module" src="script.js">
+</script>
+
+</body>
+</html>
