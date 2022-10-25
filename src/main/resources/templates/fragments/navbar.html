@@ -1,0 +1,59 @@
+<div th:fragment="navbar">
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container-fluid">
+    <!--<img src="img/logo.png" width="30%" id="logo">-->
+    <a class="navbar-brand nombreApp" href="http://localhost:8080" >NombreApp</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto" id="opcionesNav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="login">Iniciar sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="registro">Registrarse</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Sobre nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Contáctenos</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+
+<div th:fragment="navbarSesionIniciada">
+  <nav class="navbar navbar-expand-lg" id="navbarSI">
+    <div class="container-fluid">
+      <!--<img src="img/logo.png" width="30%" id="logo">-->
+      <a class="navbar-brand nombreApp" href="http://localhost:8080/home">NombreApp
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+          <br>
+          <br>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Sobre nosotros</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Contáctenos</a>
+          </li>
+          <li class="nav-item">
+            <form action="/logout" method="post">
+              <button type="submit" class="btn btn-danger" style="border-radius: 30px" id="btnLogout">Desconectarse</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
