@@ -19,4 +19,5 @@ public class DetalleDeUsuarios implements UserDetailsService {
                 .map(UsuarioDeSeguridad::new)
                 .orElseThrow(()-> new UsernameNotFoundException("usuario no encontrado"));
     }
+
 }

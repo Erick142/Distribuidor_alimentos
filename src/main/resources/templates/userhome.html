@@ -9,7 +9,30 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-3 ms-4 my-3 px-auto" style="border-radius: 15px; text-align: center; background-color: #ECECEC;">
-                <p class="my-auto py-3" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${email}"></b></p>
+                <p class="my-auto py-3" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${username}"></b></p>
+            </div>
+            <div class="dropdown" th:if="${!enlace.isPresent()||!enlace.get().getEstado().equals('aceptado')}">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    mi enlacen
+                </button>
+                <div class="dropdown-menu" >
+                    <form th:if="${!enlace.isPresent()}" action="/invitar" method="post">
+                    <b>mi enlace</b>
+                    <input type="text" placeholder="email de distribuidor" name="destinatario">
+                    <button class="btn btn-success" type="submit" name="button" value="enviar">enviar</button>
+                    </form>
+                    <form action="/eliminarenlace" method="post" th:if="${enlace.isPresent()&&enlace.get().getEstado().equals('en espera')}">
+                        <b th:text="'esperando a '+${enlace.get().getDistribuidor().email}"></b>
+
+                        <button  class="btn btn-danger" type="submit" name="button" value="eliminar">devuelveme mi enlace</button>
+                    </form>
+                    <form action="/eliminarenlace" method="post" th:if="${enlace.isPresent()&&enlace.get().getEstado().equals('rechazado')}">
+                        <b>enlace rezachado</b>
+
+                        <button class="btn btn-danger" type="submit" name="button" value="eliminar">devuelveme mi enlace</button>
+                    </form>
+                </div>
+
             </div>
         </div>
         <div class="row">
@@ -24,9 +47,10 @@
                         </div>
                         <div class="row">
                             <div class="col-auto mx-auto my-4">
-                                <a href="#">
-                                    <button class="btn px-4"   style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; "><a style="text-decoration: none;color: rgba(96,113,45,1)" href="nuevoPedido">Ingresar</a></button>
-                                </a>
+                                <form action="nuevoPedido" method="get">
+                                    <button class="btn px-4" th:if="${enlace.isPresent()&&enlace.get().getEstado().equals('aceptado')}"  style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Ingresar</button>
+                                    <button class="btn px-4"  th:if="${!enlace.isPresent()||!enlace.get().getEstado().equals('aceptado')}" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; "><a style="text-decoration: none;color: rgba(96,113,45,1)" href="#">necesita enlazarse a un distribuidor</a></button>
+                                </form>
                             </div>
                         </div>
                     </div>

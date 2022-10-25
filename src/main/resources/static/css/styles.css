@@ -82,9 +82,9 @@
 
 
 .nombreApp{
-    color: white;
-    font-weight: bolder;
-    font-size: 3rem;
+    color: white !important;
+    font-weight: bolder !important;
+    font-size: 3rem !important;
 }
 
 .cards-wrapper {
@@ -99,6 +99,9 @@
     margin-bottom:0px;
     padding: 10px;
     background-color: rgba(110, 108, 108, 0.5);
+    height: 293px;
+    width: 348px;
+    object-fit: cover;
 }
 
 .card img {

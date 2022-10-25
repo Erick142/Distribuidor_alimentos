@@ -29,6 +29,8 @@ public class Usuario {
     private String ciudad;
     @Column
     private String roles;
+    @Column
+    private String tokenPassword;
 
     public boolean validarSesion(String email, String contraseña){
         return (this.email.equals(email)&&this.password.equals(contraseña))?true:false;

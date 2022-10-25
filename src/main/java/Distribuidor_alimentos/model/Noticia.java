@@ -32,11 +32,14 @@ public class Noticia {
     private Date fecha;
     @Lob
     private String imagen;
+    @ManyToOne
+    private Usuario autor;
 
-    public Noticia(String titulo, String subtitulo, String cuerpo, String base64) {
+    public Noticia(String titulo, String subtitulo, String cuerpo, String base64,Usuario autor) {
         this.titulo=titulo;
         this.subtitulo=subtitulo;
         this.cuerpo=cuerpo;
         this.imagen=base64;
+        this.autor=autor;
     }
 }

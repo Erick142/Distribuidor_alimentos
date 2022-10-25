@@ -18,7 +18,7 @@
                 <img src="../../img/user.png" alt="" style="height: 80px;">
                 <div style="display: flex; flex-direction: column; justify-content: space-around; color: #F27272; font-weight: bold;">
                     <p>Temuco</p>
-                    <p>Autor: Distribuidor de ejemplo</p>
+                    <p th:text="'Autor: '+${noticia.autor.getNombre()}"></p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="col-12 col-md-6">
             <div style="margin: 40px 10px;display: flex;flex-direction: row;flex-grow: 0;flex-basis: content; align-items: center;">
-                <a style="text-decoration: none" th:href="@{'../editar/'+${noticia.id}}"><button class="btn btn-primary btn-lg m-2" style="height:max-content;">Editar</button></a>
+                <a th:if="${usuario!=null&&usuario.equals(noticia.autor.email)}" style="text-decoration: none" th:href="@{'../editarnoticia?id='+${noticia.id}}"><button class="btn btn-primary btn-lg m-2" style="height:max-content;">Editar</button></a>
                 <div class="m-4 p-2 scrollred" style="text-align: center;background-color: #F27272;border-radius: 15px; height: 90px; overflow: hidden; overflow-y: scroll;" id="contenedorEtiquetas">
                     <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
                     <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>

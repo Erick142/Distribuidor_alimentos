@@ -39,8 +39,8 @@ public class SeguridadConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().authorizeRequests().antMatchers("/","/css/**","/img/**","/registro").permitAll().
-                antMatchers(HttpMethod.POST,"/registrar").permitAll().
+        http.httpBasic().and().authorizeRequests().antMatchers("/","/css/**","/img/**","/registro","/contraseña_olvidada","/cambiar_contraseña","/noticia/ver/**").permitAll().
+                antMatchers(HttpMethod.POST,"/registrar","/recuperar","/actualizarcontraseña").permitAll().
                 anyRequest().authenticated().
                 and().userDetailsService(detalleDeUsuarios).
                 formLogin().loginPage("/login").loginProcessingUrl("/autenticacion").successForwardUrl("/autenticacion").permitAll().
