@@ -11,18 +11,21 @@
 <body>
 <div th:replace="/fragments/navbar :: navbar"></div>
     <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: rgba(236,236,236,0.85);">
-        <form action="userhome" method="post" >
+        <form th:action="@{'autenticacion'}" method="post" >
+            <div th:if="${param.error}" class="alert alert-danger">
+                Error
+            </div>
             <legend style="text-align: center;" class="my-3 ">Iniciar sesion</legend>
             <div class="row my-3 justify-content-center">
-                <label for="inputCorreo" class="col-3">Correo electronico</label>
+                <label for="username" class="col-3">Correo electronico</label>
                 <div class="col-8">
-                    <input type="email" id="inputCorreo" name="email" class="form-control" required placeholder="ingresar correo electronico">
+                    <input type="email" id="username" name="username" class="form-control" required placeholder="ingresar correo electronico">
                 </div>
             </div>
             <div class="row my-3 justify-content-center">
-                <label for="inputContraseña" class="col-3">Contraseña</label>
+                <label for="password" class="col-3">Contraseña</label>
                 <div class="col-8">
-                    <input type="password" id="inputContraseña" name="pass" class="form-control" required placeholder="ingresar contraseña">
+                    <input type="password" id="password" name="password" class="form-control" required placeholder="ingresar contraseña">
                 </div>
             </div>
             <div class="row my-3 ">
@@ -30,7 +33,7 @@
 
             </div>
             <div class="row">
-                <p class="col-auto mx-auto">si no puede acceder, haga click <b><a href="#" style="color: #FB4E4E; text-decoration: none;">aquí</a></b></p>
+                <p class="col-auto mx-auto">si no puede acceder, haga click <b><a href="contraseña_olvidada" style="color: #FB4E4E; text-decoration: none;">aquí</a></b></p>
             </div>
         </form>
     </div>

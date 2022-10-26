@@ -1,48 +1,39 @@
-<div th:fragment="carruselNoticias">
-    <div id="carouselExampleCaptions" class="carousel slide pt-5" data-bs-ride="false">
+
+    <div id="carouselExampleCaptions" class="carousel slide pt-5" data-bs-ride="false" th:fragment="carruselNoticias">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item active" th:if="${noticias1!=null}">
                 <div class="cards-wrapper">
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div >
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
+                    <a th:each="noticia:${noticias1}" th:href="@{'noticia/ver/'+${noticia.id}}">
+                        <div>
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
+                        </div>
+                    </a>
+
                 </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item " th:if="${noticias2!=null}">
                 <div class="cards-wrapper">
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
+                    <a th:each="noticia:${noticias2}" th:href="@{'noticia/ver/'+${noticia.id}}">
+                        <div>
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
+                        </div>
+                    </a>
+
                 </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item " th:if="${noticias3!=null}">
                 <div class="cards-wrapper">
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
-                    <div>
-                        <img src="https://www.jdalembert.org/photo/art/grande/61252492-44686219.jpg?v=1640634785" class="card-img-top" alt="...">
-                    </div>
+                    <a th:each="noticia:${noticias3}" th:href="@{'noticia/ver/'+${noticia.id}}">
+                        <div>
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
+                        </div>
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -55,6 +46,6 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-</div>
+
 
 

@@ -41,6 +41,7 @@
             </tr>
             </tbody>
           </table>
+
         </div>
 
 
@@ -170,7 +171,8 @@
   var grafActual = new Chart(ctx1,config)
   var grafAnterior = new Chart(ctx2,config)
 
-  let url = 'http://localhost:8080/api/pedidos'
+
+  let url = 'http://localhost:8080/api/pedidos/'
   fetch(url)
           .then( response => response.json() )
           .then( datos => mostrarGraficos(datos) )
@@ -178,8 +180,10 @@
 
   const mostrarGraficos = (datosPedido) =>{
     datosPedido.forEach(element => {
+      //tipo de menú
       grafActual.data['labels'].push(element.tipo)
       console.log(element.tipo)
+      //cantidad
       grafActual.data['datasets'][0].data.push(element.cantidad)
       console.log(element.cantidad)
       grafActual.update()

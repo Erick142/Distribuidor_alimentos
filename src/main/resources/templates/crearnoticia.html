@@ -1,62 +1,94 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:replace="/fragments/head :: head"></div>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <title>Crear noticia</title>
+    <link th:href="@{../css/styles.css}" rel="stylesheet"/>
 </head> 
-<body style="overflow-x: hidden ;">
-    <div th:replace="/fragments/navbar :: #navbarSI"></div>
+<body style="overflow-x: hidden ;" class="scrollred">
+    <div th:replace="/fragments/navbar :: navbarSesionIniciada"></div>
         <main class="row">
             <div class="col-12" style="display: flex;flex-direction: row-reverse;">
                 <div style="display:flex;flex-direction: row;">
                     <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-evenly;">
                         <div style="color:#f27272 ;margin-right: 10px; font-weight: bold;">Temuco</div>
-                        <div style="color:#f27272 ; margin-right: 10px; font-weight: bold;">distribuidor ejemplo</div>
+                        <div style="color:#f27272 ; margin-right: 10px; font-weight: bold;" th:text="'distribuidor: '+${usuario}"></div>
                     </div>
-                    <img src="img/user (1).png" style="height:100px" alt="user">
+                    <img src="../img/user.png" style="height:100px" alt="user">
                 </div>
             </div>
-
-            <div class="container p-5 ">
-            <form action="nuevaNoticia" method="post">
-                <div class="row p-2">
-
-                    <div class="col-6 m-2 justify-content-center">
-                        <div class="form-group">
-                            <label for="titulo" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Titulo</label>
-                            <input id="titulo" type="text" name="titulo" placeholder="introducir titulo">
+            <form action="subir" method="post" class="row" enctype="multipart/form-data">
+                <div class="col-7">
+                    <div class="row mt-4 mx-2">
+                        <label for="titulo" class="col-3" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Titulo</label>
+                        <input id="titulo" name="titulo" type="text" placeholder="introducir titulo" required class="col-7  redinput">
+                    </div>
+                    <div class="row my-2     mx-2">
+                        <label for="subtitulo" class="col-3" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Subtitulo</label>
+                        <input id="subtitulo" name="subtitulo" type="text" placeholder="introducir subtitulo" required class="col-7  redinput">
+                    </div>
+                    <div class="row my-2     mx-2">
+                        <label for="cuerpo" class="col-4" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Cuerpo</label>
+                        <textarea required name="cuerpo" id="cuerpo" cols="" rows="15" style="width: 650px; margin-left:100px;" class="redtextarea scrollred" placeholder="escribe aqui el contenido"></textarea>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class=" row">
+                        <div class="col-1" style="color: #F27272;margin-top: 26px;font-weight: bold;font-size: large;">
+                            etiquetas
                         </div>
-                        <div class="form-group">
-                            <label for="subtitulo" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Subtitulo</label>
-                            <input id="subtitulo" type="text" name="subtitulo" placeholder="introducir subtitulo">
-                        </div>
-                        <div class="form-group">
-                            <label for="contenido" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Contenido</label>
-                            <textarea  name="cuerpo" id="contenido" cols="" rows="15" style="width: 650px; margin-left:100px;" class="redtextarea scrollred" placeholder="escribe aqui el contenido"></textarea>
+                        <div class="col-9 mx-auto scrollred" style="background-color: #F27272; margin: 25px 0px; border-radius: 15px; height: 90px; overflow: hidden; overflow-y: scroll;">
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
+                            <div class="etiqueta">etiquetaEJ<div class="circulorojo"></div></div>
                         </div>
                     </div>
-
-                    <div class="div col-6 m-2 justify-content-center">
-                        <div class="form-group">
-                            <label for="etiquetas" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Etiquetas</label>
-                            <input id="etiquetas" type="text" name="etiquetas" placeholder="introducir etiquetas">
+                    
+                    <div class="row my-2" style="display: flex; justify-content:center; font-weight: bold; color: #F27272;font-size: large;">
+                        Insertar imagen
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                            <input name="imagen"  type="file" required accept=".png, .jpg, .jpeg" id="inputimagen">
                         </div>
-                        <div class="form-group">
-                            <label for="etiquetas" style="font-weight: bold; color:#F27272; display: flex; align-items: center; padding: 0px 0px 0px 100px; font-size: large;">Agregar imagen</label>
-                            <img src="img/image (1).png" alt="img" style="height: 200px;">
-                            <input name="imagen"  type="file" required accept=".png, .jpg, .jpeg">
+                        <div class="col-12" style="display: flex;justify-content:center">
+                            <img src="../img/image (1).png" alt="img" style="height: 200px;" id="imagennoticia">
                         </div>
-                        <div class="form-group">
-                            <button type="submit" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Publicar noticia</button>
+                        <div class="col-12" style="display: flex;align-items: center;justify-content: center;margin: 30px 0px 0px 0px">
+                            <button type="submit" class="py-3 px-3 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Publicar noticia</button>
                         </div>
                     </div>
-
+                    
                 </div>
             </form>
-            </div>
         </main>
 
     <div th:replace="/fragments/footer :: footer"></div>
+    <script>
+        var inputimagen= document.getElementById("inputimagen");
+        var imagen= document.getElementById("imagennoticia");
+        inputimagen.addEventListener("change",function (){
+            try {
+                const reader =new FileReader();
+                reader.readAsDataURL(this.files[0]);
+                reader.onload=function (){
+                    imagen.setAttribute("src",reader.result)
+                }
+            }catch (e){
+                console.log(e)
+            }
+        })
+    </script>
     <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
