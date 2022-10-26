@@ -2,6 +2,7 @@ package Distribuidor_alimentos.controller;
 import Distribuidor_alimentos.model.*;
 import Distribuidor_alimentos.repository.RepoNoticias;
 
+import Distribuidor_alimentos.repository.RepoPedidos;
 import Distribuidor_alimentos.service.ServicioEnlace;
 import Distribuidor_alimentos.service.ServicioMail;
 import Distribuidor_alimentos.service.ServicioUsuarios;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,8 @@ public class Controlador {
     private ServicioEnlace servicioEnlace;
     @Autowired
     private ServicioMail mailSend;
+    @Autowired
+    private RepoPedidos pedidos;
 
     @GetMapping("/")
     public String index(Model model){
@@ -69,6 +73,7 @@ public class Controlador {
     }
     @GetMapping("/home")
     public String home(Authentication authentication,Principal principal,Model model){
+        //carrusel;
         if (noticias.findAllByOrderByIdDesc().size()>0){
             List<Noticia> noticias1=new ArrayList<>();
             for (int i=0;i<noticias.findAllByOrderByIdDesc().size()&&i<3;i++){
@@ -90,14 +95,22 @@ public class Controlador {
             }
             model.addAttribute("noticias3",noticias3);
         }
+        //end carrusel
         model.addAttribute("username",servicioUsuarios.getRepo().findById(principal.getName()).get().getNombre());
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("distribuidor"))){
             model.addAttribute("enlaces",servicioEnlace.encontrarEnlacesPorDistribuidorYEstado(servicioUsuarios.obtener(principal.getName()),"en espera"));
             //usar mis instituciones para obtener los pedidos
             List<Usuario> misInstituciones=servicioEnlace.obtenerMisInstituciones(servicioUsuarios.obtener(principal.getName()));
+            List<Pedido> pedidosins=new ArrayList<>();
+            for (Usuario user:misInstituciones){
+                pedidosins.addAll(pedidos.findByUsuario(user));
+            }
+            Collections.sort(pedidosins);
+            model.addAttribute("pedidos",pedidosins);
             return "homedistribuidor";
         }
         model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())));
+        model.addAttribute("pedidos",pedidos.findByUsuario(servicioUsuarios.obtener(principal.getName())));
         return "userhome";
     }
     @PostMapping("/registrar")
@@ -106,7 +119,7 @@ public class Controlador {
                             @RequestParam(name = "password",defaultValue = "null")String password,
                             @RequestParam(name = "distribuidor",required = false)boolean esDistribuidor){
         servicioUsuarios.guardar(new Usuario(nombre,email,password,(esDistribuidor==true)?"distribuidor":"institucion"));
-        return "redirect:login";
+        return "redirect:confirmacion";
     }
     @PostMapping ("/invitar")
     public String invitar(@RequestParam(name = "destinatario") String emailDestinatario,Model model,Principal principal){
@@ -164,18 +177,11 @@ public class Controlador {
             servicioEnlace.eliminarEnlace(servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())).get());
             return "redirect:home";
     }
-    @GetMapping("/nuevoPedido")
-    public String nuevoPedido(){
-        return "nuevoPedido";
-    }
     @GetMapping("/success")
     public String success(){
         return "success";
     }
-    @GetMapping("/rectificarPedido")
-    public String rectificarPedido(){
-        return "rectificarPedido";
-    }
+
     @GetMapping("/estadisticas")
     public String estadisticas(){
         return "estadisticas";
