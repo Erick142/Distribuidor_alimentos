@@ -1,16 +1,18 @@
 package Distribuidor_alimentos.controller;
-
 import Distribuidor_alimentos.model.*;
-import Distribuidor_alimentos.repository.*;
-import Distribuidor_alimentos.service.*;
+import Distribuidor_alimentos.repository.RepoNoticias;
+
+import Distribuidor_alimentos.repository.RepoPedidos;
+import Distribuidor_alimentos.service.ServicioEnlace;
+import Distribuidor_alimentos.service.ServicioMail;
+import Distribuidor_alimentos.service.ServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +57,6 @@ public class Controlador {
         }
         return "index";
     }
-
-
     @GetMapping("/login")
     public String login(){
         return "login";
@@ -110,9 +110,6 @@ public class Controlador {
         }
         model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())));
         model.addAttribute("pedidos",pedidos.findByUsuario(servicioUsuarios.obtener(principal.getName())));
-
-
-
         return "userhome";
     }
     @PostMapping("/registrar")
@@ -123,8 +120,6 @@ public class Controlador {
         servicioUsuarios.guardar(new Usuario(nombre,email,password,(esDistribuidor==true)?"distribuidor":"institucion"));
         return "redirect:confirmacion";
     }
-
-
     @PostMapping ("/invitar")
     public String invitar(@RequestParam(name = "destinatario") String emailDestinatario,Model model,Principal principal){
 
@@ -181,12 +176,14 @@ public class Controlador {
             servicioEnlace.eliminarEnlace(servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())).get());
             return "redirect:home";
     }
-
-
-    //general
     @GetMapping("/success")
     public String success(){
-        return "success";
+        return "confirmacion";
+    }
+
+    @GetMapping("/estadisticas")
+    public String estadisticas(){
+        return "estadisticas";
     }
     @GetMapping("/error")
     public String error(){
@@ -194,23 +191,17 @@ public class Controlador {
     }
     @GetMapping("/exito")
     public String exito(){
-        return "success";
+        return "confirmacion";
     }
-
-
-
-    //Usuario
     @GetMapping("/confirmacion")
     public String confirmacionRegistro(){
         return "ConfirmacionRegistro";
     }
 
-
     @GetMapping("/contraseña_olvidada")
     public String contraseñaOlvidada(){
         return "recuperar";
     }
-
     @PostMapping("/recuperar")
     public String recuperar(@RequestParam(name = "email",defaultValue = "null") String email){
         if (!email.equals("null")){
@@ -218,13 +209,11 @@ public class Controlador {
         }
         return "redirect:/";
     }
-
     @GetMapping("/cambiar_contraseña")
     public String cambiarContraseña(@RequestParam(name = "token") String token,Model model){
         model.addAttribute("token",token);
         return "cambiarcontraseña";
     }
-
     @PostMapping("/actualizarcontraseña")
     public String actualizarContraseña(@RequestParam(name = "token") String token,
                                        @RequestParam(name = "contraseña") String password){
