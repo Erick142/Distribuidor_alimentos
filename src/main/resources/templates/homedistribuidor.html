@@ -13,15 +13,17 @@
     <div th:replace="/fragments/navbar :: navbarSesionIniciada "></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 ms-4 my-3 px-auto" style="border-radius: 15px; text-align: center; background-color: #ECECEC;">
+            <div class="col-3 p-2 m-2" style="border-radius: 15px; text-align: center; background-color: #ECECEC;">
                 <p class="my-auto py-3" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${username}"></b></p>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style="width: max-content">
                     enlaces pendientes
                 </button>
             </div>
         </div>
+
         <div class="row">
             <div class="col-12">
+
                 <div class="row">
                     <div class="col-3 mx-4" style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
                         <div class="row">
@@ -37,7 +39,19 @@
                                 </form>
                             </div>
                         </div>
+
+                        <!--boton provisorio para agregar menú-->
+                        <div class="col-auto mx-auto my-4">
+                            <form action="vermenus" method="get">
+                                <label>Nuevo Menú</label>
+                                <button class="btn px-4" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Agregar</button>
+                            </form>
+                        </div>
+
                     </div>
+
+
+
                     <div class="col-7 mx-auto">
                         <div class="row">
                             <legend class="col-6" style="color: #F27272;">Ultimos pedidos de tus instituciones</legend>
@@ -65,8 +79,13 @@
                 </div>
             </div>
         </div>
+
+
         <div th:replace="/fragments/carruselNoticias :: carruselNoticias"></div>
     </div>
+
+
+
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enlaces</h5>

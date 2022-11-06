@@ -4,7 +4,6 @@ import Distribuidor_alimentos.model.Noticia;
 import Distribuidor_alimentos.repository.RepoNoticias;
 import Distribuidor_alimentos.repository.RepoUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.security.Principal;
 import java.util.Base64;
 @RequestMapping("/noticia")
 @Controller
-public class ControllerNoticias {
+public class ControladorNoticias {
     @Autowired
     private RepoNoticias noticias;
     @Autowired

@@ -5,13 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @ToString(exclude = "id")
 
 @Entity(name = "Pedidos")
-public class Pedido{
+public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,7 +24,7 @@ public class Pedido{
     @ManyToOne
     private Usuario usuario;
 
-    public Pedido(String tipo, int cantidad, String nota, LocalDate fecha,Usuario usuario) {
+    public Pedido(String tipo, int cantidad, String nota, LocalDate fecha, Usuario usuario) {
         this.tipo = tipo;
         this.cantidad=cantidad;
         this.nota=nota;

@@ -15,43 +15,38 @@
         <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
           <h2 style="text-align: center"> Registrar nuevo pedido</h2>
           <br>
-          <form action="hacerPedido" method="post" >
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Tipo de menú</label>
-              <select class="form-control" name="tipo" id="exampleFormControlSelect1" >
+          <form action="agregaralista" th:object="${menus}" method="get" >
+            <div class="form-group pt-2">
+              <label for="tipoMenu">Tipo de menú</label>
+              <select class="form-control" name="tipo" id="tipoMenu" >
                 <option disabled>Seleccione tipo</option>
-                <option>Estándar</option>
-                <option>Hipocalórico</option>
-                <option>Celíaco</option>
-                <option>Vegetariano</option>
-                <option>Vegano</option>
+                <option th:each="menu : ${menus}" th:text="${menu.nombre}"/>
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Cantidad</label>
-              <input type="number" class="form-control" name="cantidad" id="exampleFormControlInput1" placeholder="Cantidad">
+            <div class="form-group pt-2">
+              <label for="cantidadPedido">Cantidad</label>
+              <input type="number" class="form-control" name="cantidad" id="cantidadPedido" placeholder="Cantidad">
             </div>
 
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Fecha de entrega</label>
+            <div class="form-group pt-2">
+              <label for="fechaPedido">Fecha de entrega</label>
               <input type="date" name="fecha"
-                     min="2022-25-10" max="2022-12-31">
+                     min="2022-11-09" max="2022-12-31" id="fechaPedido">
             </div>
 
 
             <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="anotaciones">
               <div class="form-group">
-                <label for="exampleFormControlTextarea1">Anotaciones</label>
-                <textarea class="form-control" name="nota" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label for="notaPedido">Anotaciones</label>
+                <textarea class="form-control" name="nota" id="notaPedido" rows="3"></textarea>
               </div>
             </div>
 
             <div class="form-group">
-              <button type="submit" id="registro" class=" py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Agregar a la lista</button>
+              <button type="submit" id="listaPedido" class=" py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Agregar a la lista</button>
             </div>
           </form>
-
         </div>
       </div>
     </div>
@@ -64,38 +59,44 @@
             <br>
             <div class="row">
               <div class="col-lg-12">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                      <tr>
-                        <th><span>Tipo menú</span></th>
-                        <th><span>Cantidad</span></th>
-                        <th><span>Nota</span></th>
-                        <th>&nbsp;</th>
-                      </tr>
-                      </thead>
 
-                      <tbody>
-                      <tr>
-                        <td>
-                          Estándar
-                        </td>
-                          <td>
-                              230
-                          </td>
-                        <td>
-                          <a href="verNota" style=" text-decoration: none" ><span style="color: #EE6055 ">Ver</span></a>
-                        </td>
-                        <td>
-                          <i class="fas fa-edit"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt"></i>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th><span>Tipo menú</span></th>
+                      <th><span>Cantidad</span></th>
+                      <th><span>Nota</span></th>
+                      <th>Acciones</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <!--No se está pasando a las vistas-->
+                    <tr th:each="pedido: ${pedidos}">
+                      <td th:text="${pedido.tipo}" />
+                      <td th:text="${pedido.cantidad}"/>
+                      <td th:text="${pedido.nota}"/>
+                      <td><i class="fas fa-edit"></i><i class="fas fa-trash-alt"></i></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                  <div class="row" style="text-align: center">
+                    <div class="col-12 col-md-4 p-2 mx-auto"><a href="" style="text-decoration: none">
+                      <button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Confirmar</button>
+
+                    </a></div>
+                    <div class="col-12 col-md-4 p-2 mx-auto">
+                      <a href="userhome" style="text-decoration: none">
+                        <button type="submit"  style="background-color: rgba(236,236,236,0.85); border:none; color: RED; border-radius: 14px; ">Cancelar</button>
+                      </a>
+                    </div>
                   </div>
+
+                <form method="post" >
+                </form>
 
               </div>
 
@@ -104,18 +105,6 @@
           </div>
         </div>
 
-        <div class="row" style="text-align: center">
-          <div class="col-12 col-md-4 p-2 mx-auto"><a href="" style="text-decoration: none">
-            <button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Confirmar</button>
-
-          </a></div>
-          <div class="col-12 col-md-4 p-2 mx-auto">
-            <a href="userhome" style="text-decoration: none">
-              <button type="submit"  style="background-color: rgba(236,236,236,0.85); border:none; color: RED; border-radius: 14px; ">Cancelar</button>
-
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:replace="/fragments/head" :: head></div>
+  <title>Nuevo pedido</title>
+</head>
+
+<body>
+<nav th:replace="/fragments/navbar :: navbarSesionIniciada"></nav>
+
+<div class="container p-5 ">
+  <div class="row gx-5 ">
+    <div class="col-12 col-lg-6" id="nuevoPedido" >
+      <div class="p-3 m-2" style="background-color: #EE6055;border-radius: 6%">
+        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
+          <h2 style="text-align: center"> Registrar nuevo menú</h2>
+          <br>
+          <form action="nuevomenu" method="post" enctype="multipart/form-data" >
+            <div class="form-group">
+              <label for="nombreMenu">Tipo de menú</label>
+              <input type="text" class="form-control" name="nombre" id="nombreMenu" placeholder="Nombre del menú">
+            </div>
+
+            <div class="form-group">
+              <label for="descripcionMenu">Descripción del menú</label>
+              <textarea class="form-control" name="descripcion" id="descripcionMenu"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="iconoMenu" class="row my-2" style="display: flex; justify-content:center; font-weight: bold; color: #F27272;font-size: large;">Agregar icono</label>
+              <div class="row">
+                <div class="col-12 mx-auto">
+                  <input name="icono"  type="file" required accept=".png, .jpg, .jpeg" id="iconoMenu">
+                </div>
+                <div class="col-12" style="display: flex;justify-content:center">
+                  <img src="../img/image (1).png" alt="img" style="height: 30px;" id="imagenMenu">
+                </div>
+                <div class="col-12 form-group" style="display: flex;align-items: center;justify-content: center;margin: 30px 0px 0px 0px">
+                  <button type="submit" id="nuevoMenu" class="py-3 px-3 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Agregar menú</button>
+                </div>
+              </div>
+
+            </div>
+
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6" id="cola" >
+      <div class="p-3 m-2" style="background-color: #EE6055;border-radius: 6%">
+        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px">
+          <div class="container">
+            <h2 style="text-align: center">Menús disponibles</h2>
+            <br>
+            <div class="row">
+              <div class="col-lg-12">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th><span>Tipo menú</span></th>
+                        <th><span>Descripción</span></th>
+                        <th><span>Icono</span></th>
+                        <th>Acciones</th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                      <tr th:each="menu: ${menus}">
+                        <td th:text="${menu.nombre}" />
+                        <td th:text="${menu.descripcion}"/>
+                        <td><img th:src="@{'data:image/jpeg;base64,'+${menu.icono}}" style="width: 30%;object-fit: cover ;border-radius: 30px;"  alt="icono_menu" ></td>
+                        <td><i class="fas fa-edit"></i><i class="fas fa-trash-alt"></i></td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+</body>
+</html>

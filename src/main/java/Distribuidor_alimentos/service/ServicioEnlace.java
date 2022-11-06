@@ -24,6 +24,7 @@ public class ServicioEnlace {
     public List<Usuario> obtenerMisInstituciones(Usuario distribuidor){
         return enlaces.findAllByDistribuidorAndEstado(distribuidor,"aceptado").stream().map(enlace -> enlace.getInstitucion()).collect(Collectors.toList());
     }
+
     public Optional<Enlace> encontrarEnlacePorInstitucion(Usuario institucion){
         return enlaces.findByInstitucion(institucion);
     }

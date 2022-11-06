@@ -3,6 +3,7 @@ import Distribuidor_alimentos.model.*;
 import Distribuidor_alimentos.repository.RepoNoticias;
 
 import Distribuidor_alimentos.repository.RepoPedidos;
+import Distribuidor_alimentos.repository.RepoUsuarios;
 import Distribuidor_alimentos.service.ServicioEnlace;
 import Distribuidor_alimentos.service.ServicioMail;
 import Distribuidor_alimentos.service.ServicioUsuarios;
@@ -15,12 +16,11 @@ import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
 @Controller
-public class Controlador {
+public class ControladorUsuarios {
     @Autowired
     private ServicioUsuarios servicioUsuarios;
     @Autowired
@@ -30,7 +30,9 @@ public class Controlador {
     @Autowired
     private ServicioMail mailSend;
     @Autowired
-    private RepoPedidos pedidos;
+    private RepoPedidos repoPedidos;
+    @Autowired
+    private RepoUsuarios repoUsuarios;
 
     @GetMapping("/")
     public String index(Model model){
@@ -102,14 +104,14 @@ public class Controlador {
             List<Usuario> misInstituciones=servicioEnlace.obtenerMisInstituciones(servicioUsuarios.obtener(principal.getName()));
             List<Pedido> pedidosins=new ArrayList<>();
             for (Usuario user:misInstituciones){
-                pedidosins.addAll(pedidos.findByUsuario(user));
+                pedidosins.addAll(repoPedidos.encontrarPorUsuario(user));
             }
-            Collections.sort(pedidosins);
+           // Collections.sort(pedidosins);
             model.addAttribute("pedidos",pedidosins);
             return "homedistribuidor";
         }
         model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())));
-        model.addAttribute("pedidos",pedidos.findByUsuario(servicioUsuarios.obtener(principal.getName())));
+        model.addAttribute("pedidos",repoPedidos.encontrarPorUsuario(servicioUsuarios.obtener(principal.getName())));
         return "userhome";
     }
     @PostMapping("/registrar")
@@ -141,7 +143,7 @@ public class Controlador {
             return "redirect:home";
         }
         servicioEnlace.guardarEnlace(new Enlace(distribuidor,usuario,"en espera"));
-        model.addAttribute("resultadoDeEnlaze","Enlaze solicitado satisfactoriamente");
+        model.addAttribute("resultadoDeEnlace","Enlace solicitado satisfactoriamente");
         return "redirect:home";
     }
     @PostMapping("/resolucion")
@@ -163,7 +165,7 @@ public class Controlador {
         if ((seleccion.equals("aceptado"))) {
             Enlace enlace=servicioEnlace.encontrarPorId(intId).get();
             enlace.setEstado("aceptado");
-            servicioEnlace.guardarEnlace(enlace);
+            servicioEnlace.guardarEnlace(enlace);;
         } else {
             Enlace enlace=servicioEnlace.encontrarPorId(intId).get();
             enlace.setEstado("rechazado");

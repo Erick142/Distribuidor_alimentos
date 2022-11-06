@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +32,8 @@ public class Usuario {
     private String roles;
     @Column
     private String tokenPassword;
+    @Lob
+    private String fotoPerfil;
 
     public boolean validarSesion(String email, String contraseña){
         return (this.email.equals(email)&&this.password.equals(contraseña))?true:false;
