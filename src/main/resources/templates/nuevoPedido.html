@@ -13,9 +13,7 @@
     <div class="col-12 col-lg-6" id="nuevoPedido" >
       <div class="p-3 m-2" style="background-color: #EE6055;border-radius: 6%">
         <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
-          <h2 style="text-align: center"> Registrar nuevo pedido</h2>
-          <br>
-          <form action="agregaralista" th:object="${menus}" method="get" >
+          <form action="agregaralista" th:object="${menus}" method="POST" >
             <div class="form-group pt-2">
               <label for="tipoMenu">Tipo de menú</label>
               <select class="form-control" name="tipo" id="tipoMenu" >
@@ -59,9 +57,9 @@
             <br>
             <div class="row">
               <div class="col-lg-12">
-
+                <form method="post" >
                 <div class="table-responsive">
-                  <table class="table">
+                  <table class="table table-striped">
                     <thead>
                     <tr>
                       <th><span>Tipo menú</span></th>
@@ -72,8 +70,7 @@
                     </thead>
 
                     <tbody>
-                    <!--No se está pasando a las vistas-->
-                    <tr th:each="pedido: ${pedidos}">
+                    <tr th:each="pedido: ${detallepedidos}">
                       <td th:text="${pedido.tipo}" />
                       <td th:text="${pedido.cantidad}"/>
                       <td th:text="${pedido.nota}"/>
@@ -85,7 +82,7 @@
 
                   <div class="row" style="text-align: center">
                     <div class="col-12 col-md-4 p-2 mx-auto"><a href="" style="text-decoration: none">
-                      <button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Confirmar</button>
+                      <button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Enviar</button>
 
                     </a></div>
                     <div class="col-12 col-md-4 p-2 mx-auto">
@@ -94,8 +91,6 @@
                       </a>
                     </div>
                   </div>
-
-                <form method="post" >
                 </form>
 
               </div>

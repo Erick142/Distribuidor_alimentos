@@ -3,9 +3,9 @@ package Distribuidor_alimentos.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,22 +15,22 @@ import java.util.List;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
-    private String tipo;
-    private int cantidad;
-    private String nota;
-    private LocalDate fecha;
+    private LocalDate fechaCreacion;
     private boolean rectificado;
     @ManyToOne
     private Usuario usuario;
 
-    public Pedido(String tipo, int cantidad, String nota, LocalDate fecha, Usuario usuario) {
-        this.tipo = tipo;
-        this.cantidad=cantidad;
-        this.nota=nota;
-        this.fecha=fecha;
+    @ManyToOne
+    @JoinColumn(name = "id_detalle_pedido_id")
+    private DetallePedido id_detallePedido;
+    //,DetallePedido id_detallePedido
+    public Pedido(LocalDate fechaCreacion, Usuario usuario){
+        this.fechaCreacion=fechaCreacion;
         this.usuario=usuario;
         this.rectificado=false;
+        //this.id_detallePedido=id_detallePedido;
     }
 
 }

@@ -2,12 +2,12 @@ package Distribuidor_alimentos.controller;
 import Distribuidor_alimentos.model.*;
 import Distribuidor_alimentos.repository.RepoNoticias;
 
-import Distribuidor_alimentos.repository.RepoPedidos;
+import Distribuidor_alimentos.repository.RepoDetallepedidos;
+import Distribuidor_alimentos.repository.RepoPedido;
 import Distribuidor_alimentos.repository.RepoUsuarios;
-import Distribuidor_alimentos.service.ServicioEnlace;
-import Distribuidor_alimentos.service.ServicioMail;
-import Distribuidor_alimentos.service.ServicioUsuarios;
+import Distribuidor_alimentos.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.ui.Model;
@@ -29,8 +29,11 @@ public class ControladorUsuarios {
     private ServicioEnlace servicioEnlace;
     @Autowired
     private ServicioMail mailSend;
+
+    @Qualifier("repoPedido")
     @Autowired
-    private RepoPedidos repoPedidos;
+    private RepoPedido repoPedidos;
+
     @Autowired
     private RepoUsuarios repoUsuarios;
 
@@ -102,7 +105,7 @@ public class ControladorUsuarios {
             model.addAttribute("enlaces",servicioEnlace.encontrarEnlacesPorDistribuidorYEstado(servicioUsuarios.obtener(principal.getName()),"en espera"));
             //usar mis instituciones para obtener los pedidos
             List<Usuario> misInstituciones=servicioEnlace.obtenerMisInstituciones(servicioUsuarios.obtener(principal.getName()));
-            List<Pedido> pedidosins=new ArrayList<>();
+            List<DetallePedido> pedidosins=new ArrayList<>();
             for (Usuario user:misInstituciones){
                 pedidosins.addAll(repoPedidos.encontrarPorUsuario(user));
             }
@@ -111,7 +114,7 @@ public class ControladorUsuarios {
             return "homedistribuidor";
         }
         model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())));
-        model.addAttribute("pedidos",repoPedidos.encontrarPorUsuario(servicioUsuarios.obtener(principal.getName())));
+        model.addAttribute("pedidos", repoPedidos.encontrarPorUsuario(servicioUsuarios.obtener(principal.getName())));
         return "userhome";
     }
     @PostMapping("/registrar")
