@@ -40,4 +40,11 @@ public class DetallePedido {
         this.usuario=usuario;
     }
 
+    public DetallePedido(String tipo, int cantidad, String nota, LocalDate fechaEntrega) {
+        this.tipo =tipo;
+        this.cantidad=cantidad;
+        this.nota=nota;
+        this.fechaEntrega=fechaEntrega;
+    }
+
 }

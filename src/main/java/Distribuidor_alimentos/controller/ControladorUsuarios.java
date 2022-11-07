@@ -105,7 +105,7 @@ public class ControladorUsuarios {
             model.addAttribute("enlaces",servicioEnlace.encontrarEnlacesPorDistribuidorYEstado(servicioUsuarios.obtener(principal.getName()),"en espera"));
             //usar mis instituciones para obtener los pedidos
             List<Usuario> misInstituciones=servicioEnlace.obtenerMisInstituciones(servicioUsuarios.obtener(principal.getName()));
-            List<DetallePedido> pedidosins=new ArrayList<>();
+            List<Pedido> pedidosins=new ArrayList<>();
             for (Usuario user:misInstituciones){
                 pedidosins.addAll(repoPedidos.encontrarPorUsuario(user));
             }

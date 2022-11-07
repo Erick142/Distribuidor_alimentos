@@ -57,7 +57,7 @@
             <br>
             <div class="row">
               <div class="col-lg-12">
-                <form method="post" >
+                <form action="hacerpedido" method="post" >
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <thead>
@@ -74,7 +74,7 @@
                       <td th:text="${pedido.tipo}" />
                       <td th:text="${pedido.cantidad}"/>
                       <td th:text="${pedido.nota}"/>
-                      <td><i class="fas fa-edit"></i><i class="fas fa-trash-alt"></i></td>
+                      <td><i class="fas fa-edit"></i>&nbsp;<i class="fas fa-trash-alt"></i></td>
                     </tr>
                     </tbody>
                   </table>

@@ -64,11 +64,11 @@
                                     <div class="col-2" style="color: white; text-align: center;">
                                         Fecha
                                     </div>
-                                    <div class="col-3" style="background-color: white; color:#F27272; text-align: center; border-radius: 15px;" th:text="${pedido.fecha}">
+                                    <div class="col-3" style="background-color: white; color:#F27272; text-align: center; border-radius: 15px;" th:text="${pedido.fechaCreacion}">
                                     </div>
                                     <div class="col-7" style="display: flex; justify-content:flex-end" th:if="${!pedido.isRectificado()}">
                                         <a style="text-decoration:none;color: #F27272" href="rectificarPedido">
-                                            <button class="btn px-4"   style="background-color: white; border:none; color: #F27272; border-radius: 14px; ">Rectificar</button>
+                                            <button class="btn px-4"  style="background-color: white; border:none; color: #F27272; border-radius: 14px; ">Rectificar</button>
                                         </a>
                                     </div>
                                     <div class="col-7" style="display: flex; justify-content:flex-end" th:if="${pedido.isRectificado()}">

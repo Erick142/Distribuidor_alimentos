@@ -6,6 +6,7 @@ import Distribuidor_alimentos.repository.RepoMenus;
 import Distribuidor_alimentos.repository.RepoDetallepedidos;
 import Distribuidor_alimentos.repository.RepoPedido;
 import Distribuidor_alimentos.service.ServicioUsuarios;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,10 +46,20 @@ public class ControladorPedidos {
         return repoDetallepedidos.findById(id);
     }
 
+    int id;
     @GetMapping("/nuevoPedido")
     public String nuevoPedido(Model model, Principal principal){
         listarMenus(model, principal);
         listarDetallePedido(model,principal);
+        Pedido a = new Pedido();
+        repoPedido.save(a);
+        DetallePedido b = new DetallePedido();
+        repoDetallepedidos.save(b);
+        System.out.println(a.toString());
+        System.out.println(b.toString());
+        id=a.getId();
+        System.out.println("id :"+id);
+        a.setId_detallePedido(b);
         return "nuevoPedido";
     }
 
@@ -73,7 +84,10 @@ public class ControladorPedidos {
         */ //manejo con arraylist
 
         listarDetallePedido(model,principal);
-        repoDetallepedidos.save(new DetallePedido(tipo,cantidad,nota,fecha,servicioUsuarios.obtener(principal.getName())));
+        Usuario usuarioActual=obtenerUsuarioActual(principal);
+        //System.out.println("id Pedido:"+id);
+        //Pedido pedidoActual=repoPedido.findById(this.id).get();
+        repoDetallepedidos.save(new DetallePedido(tipo,cantidad,nota,fecha));
         return "redirect:/nuevoPedido";
     }
 
@@ -81,23 +95,29 @@ public class ControladorPedidos {
     public String listarDetallePedido(Model model,Principal principal){
         Usuario usuarioActual = obtenerUsuarioActual(principal);
         List lista_detalle =repoDetallepedidos.encontrarPorUsuario(usuarioActual);
-        System.out.println("institucion : "+usuarioActual);
-        System.out.println("lista : "+lista_detalle);
+        //System.out.println("institucion : "+usuarioActual);
+        //System.out.println("lista : "+lista_detalle);
         model.addAttribute("detallepedidos",lista_detalle );
         return "redirect:/nuevoPedido";
     }
 
-    @PostMapping("/hacerPedido")
+    @PostMapping("/hacerpedido")
     public String hacerPedido(
-            @RequestParam(name = "fecha")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaCreacion,
+            //@RequestParam(name = "fecha")
+            //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaCreacion,
             Model model,
             Principal principal
     ){
         listarMenus(model,principal);
         //,id_detallePedido
-        repoPedido.save(new Pedido(fechaCreacion,obtenerUsuarioActual(principal)));
-        return "redirect:confirmacion";
+        Usuario usuarioActual = obtenerUsuarioActual(principal);
+        //DetallePedido detallePedido = repoDetallepedidos.findById(id).get();
+        Pedido pedidoActual=repoPedido.findById(id).get();
+        LocalDate fechaCreacion = LocalDate.now();
+        pedidoActual.setFechaCreacion(fechaCreacion);
+        pedidoActual.setUsuario(usuarioActual);
+        repoPedido.save(new Pedido(fechaCreacion,usuarioActual));
+        return "redirect:/home";
     }
 
 
@@ -147,7 +167,7 @@ public class ControladorPedidos {
             if (usuarioActual.getRoles().equals("institucion")){
                 Optional<Enlace> listaDistribuidores = repoEnlaces.findByInstitucion(usuarioActual);
                 Usuario distribuidor=listaDistribuidores.get().getDistribuidor();
-                System.out.println(distribuidor.getEmail());
+                //System.out.println(distribuidor.getEmail());
                 model.addAttribute("menus",repoMenus.encontrarPorUsuario(distribuidor.getEmail()));
 
             }else if (usuarioActual.getRoles().equals("distribuidor")){
