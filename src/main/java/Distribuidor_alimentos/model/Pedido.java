@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@ToString(exclude = "id")
+//@ToString(exclude = "id")
 
 @Entity(name = "Pedidos")
 public class Pedido {
@@ -18,19 +18,22 @@ public class Pedido {
     @Column(name = "id", nullable = false)
     private Integer id;
     private LocalDate fechaCreacion;
+    private LocalDate fechaEntrega;
     private boolean rectificado;
-    @ManyToOne
+    @OneToOne
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_detalle_pedido_id")
-    private DetallePedido id_detallePedido;
-    //,DetallePedido id_detallePedido
     public Pedido(LocalDate fechaCreacion, Usuario usuario){
         this.fechaCreacion=fechaCreacion;
         this.usuario=usuario;
         this.rectificado=false;
-        //this.id_detallePedido=id_detallePedido;
+    }
+
+    public Pedido(LocalDate fechaCreacion, Usuario usuario,LocalDate fechaEntrega){
+        this.fechaCreacion=fechaCreacion;
+        this.usuario=usuario;
+        this.rectificado=false;
+        this.fechaEntrega=fechaEntrega;
     }
 
 }

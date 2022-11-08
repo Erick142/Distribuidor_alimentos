@@ -15,9 +15,7 @@
 </head>
 <body>
 
-<nav th:insert="index::nav-var"></nav>
-
-
+<div th:replace="/fragments/navbar :: navbarSesionIniciada"></div>
 
 <div class="container p-5 ">
   <div class="row gx-5 ">
@@ -26,89 +24,48 @@
         <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
           <h2 style="text-align: center"> Rectificar pedido</h2>
           <br>
-          <table id="tablaResumen" style="margin-left: auto; margin-right: auto">
-            <thead>
-            <tr>
-              <th>Tipo de menú</th>
-              <th>Cantidad</th>
-              <th>Fecha de entrega</th>
-            </tr>
-            </thead>
+          <form action="editarpedido" method="PUT" >
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th><span>Tipo menú</span></th>
+                  <th><span>Cantidad</span></th>
+                  <th><span>Nota</span></th>
+                  <th>Acciones</th>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr>
-              <td><div class="form-group">
-                <select class="form-control" >
-                  <option disabled>Seleccione tipo</option>
-                  <option selected>Estándar</option>
-                  <option>Hipocalórico</option>
-                  <option>Celíaco</option>
-                  <option>Vegetariano</option>
-                  <option>Vegano</option>
-                </select>
+                <tbody>
+                <tr th:each="pedido: ${detallepedidos}">
+                  <td th:text="${pedido.tipo}" />
+                  <td th:text="${pedido.cantidad}"/>
+                  <td th:text="${pedido.nota}"/>
+                  <td><i class="fas fa-edit"></i>&nbsp;<i class="fas fa-trash-alt"></i></td>
+                </tr>
+                </tbody>
+              </table>
+
+              <div class="form-group pt-2">
+                <label for="fechaPedido">Fecha de entrega</label>
+                <input type="date" name="fecha"
+                       min="2022-11-09" max="2022-12-31" id="fechaPedido">
               </div>
-              </td>
 
-              <td><div class="form-group">
-                <input type="number" value="235" min="1" max="1000" class="form-control" placeholder="Cantidad">
-              </div></td>
+            </div>
 
-              <td>
-                <input type="date" name="trip-start"
-                       value="2022-20-09"
-                       min="2022-21-09" max="2022-12-31">
-              </td>
-            </tr>
+            <div class="row" style="text-align: center">
+              <div class="col-12 col-md-4 p-2 mx-auto"><a href="" style="text-decoration: none">
+                <button type="submit"  style="background-color: #aaf17b; border:none; color: RED; border-radius: 14px; ">Guardar cambios</button>
 
-            <tr>
-              <td><div class="form-group">
-                <select class="form-control">
-                  <option disabled>Seleccione tipo</option>
-                  <option>Estándar</option>
-                  <option>Hipocalórico</option>
-                  <option selected>Celíaco</option>
-                  <option>Vegetariano</option>
-                  <option>Vegano</option>
-                </select>
+              </a></div>
+              <div class="col-12 col-md-4 p-2 mx-auto">
+                <a href="userhome" style="text-decoration: none">
+                  <button type="submit"  style="background-color: rgba(236,236,236,0.85); border:none; color: RED; border-radius: 14px; ">Cancelar</button>
+                </a>
               </div>
-              </td>
-
-              <td><div class="form-group">
-                <input type="number" value="20" min="1" max="1000" class="form-control" placeholder="Cantidad">
-              </div></td>
-
-              <td>
-                <input type="date" name="trip-start"
-                       value="2022-20-09"
-                       min="2022-21-09" max="2022-12-31">
-              </td>
-            </tr>
-
-            <tr>
-              <td><div class="form-group">
-                <select class="form-control" >
-                  <option disabled>Seleccione tipo</option>
-                  <option>Estándar</option>
-                  <option>Hipocalórico</option>
-                  <option>Celíaco</option>
-                  <option selected>Vegetariano</option>
-                  <option>Vegano</option>
-                </select>
-              </div>
-              </td>
-
-              <td><div class="form-group">
-                <input type="number" value="32" min="1" max="1000" class="form-control" placeholder="Cantidad">
-              </div></td>
-
-              <td>
-                <input type="date" name="trip-start"
-                       value="2022-20-09"
-                       min="2022-21-09" max="2022-12-31">
-              </td>
-            </tr>
-            </tbody>
-          </table>
+            </div>
+          </form>
 
         </div>
 

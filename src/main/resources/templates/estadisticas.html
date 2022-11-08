@@ -22,107 +22,47 @@
             <tr>
               <td>Nombre Distribuidor</td>
               <td>&nbsp;:&nbsp;</td>
-              <td>Distribuidor 1</td>
+              <td th:text="${nombreDist}"></td>
             </tr>
             <tr>
               <td>Nombre Solicitante</td>
               <td>&nbsp;:&nbsp;</td>
-              <td>Institución 1</td>
+              <td th:text="${nombreUsuario}"></td>
             </tr>
             <tr>
-              <td>Fecha</td>
+              <td>Fecha de solicitud</td>
               <td>&nbsp;:&nbsp;</td>
-              <td>02/09/2022</td>
+              <td th:text="${fechaSolicitud}"></td>
             </tr>
             <tr>
               <td>ID del pedido</td>
               <td>&nbsp;:&nbsp;</td>
-              <td>P00383</td>
+              <td th:text="${idPedido}"></td>
             </tr>
             </tbody>
           </table>
         </div>
 
 
-        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="statsPedido">
-          <h3> Estadísticas del pedido</h3>
-          <table>
-            <tr>
-              <td>Cantidad de personas</td>
-              <td>&nbsp;:&nbsp;</td>
-              <td>507</td>
-            </tr>
-            <tbody>
-            <tr>
-              <td>Raciones solicitadas</td>
-              <td>&nbsp;:&nbsp;</td>
-              <td>492</td>
-            </tr>
-            <tr>
-              <td>Raciones consumidas</td>
-              <td>&nbsp;:&nbsp;</td>
-              <td>474</td>
-            </tr>
-            <tr>
-              <td>Raciones perdidas</td>
-              <td>&nbsp;:&nbsp;</td>
-              <td>18</td>
-            </tr>
-            </tbody>
-          </table>
-          <br>
-          <table id="tablaResumen">
+        <div class="table-responsive" style="background-color: white;border-radius: 15px 50px" >
+          <table class="table bg-light table-striped">
             <thead>
             <tr>
-              <th>Tipo de menú</th>
-              <th>Raciones consumidas</th>
-              <th>Raciones perdidas</th>
-              <th>Total parcial</th>
+              <th><span>Tipo menú</span></th>
+              <th><span>Cantidad</span></th>
+              <th><span>Nota</span></th>
             </tr>
             </thead>
+
             <tbody>
-            <tr>
-              <td>Estándar</td>
-              <td>415</td>
-              <td>12</td>
-              <td>427</td>
-            </tr>
-            <tr>
-              <td>Celíaco</td>
-              <td>9</td>
-              <td>1</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <td>Hipocalórico</td>
-              <td>37</td>
-              <td>3</td>
-              <td>40</td>
-            </tr>
-            <tr>
-              <td>Vegetariano</td>
-              <td>13</td>
-              <td>2</td>
-              <td>15</td>
-            </tr>
-            <tr>
-              <td>Total</td>
-              <td>474</td>
-              <td>18</td>
-              <td>492</td>
+            <tr th:each="pedido: ${pedidoMasReciente}">
+              <td th:text="${pedido.tipo}" />
+              <td th:text="${pedido.cantidad}"/>
+              <td th:text="${pedido.nota}"/>
             </tr>
             </tbody>
           </table>
-
-
-
         </div>
-
-        <div class="p-3 m-2" style="background-color: white;border-radius: 15px 50px" id="anotaciones">
-          <h2>Anotaciones</h2>
-          <p id="textoBienvenida">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-
 
       </div>
     </div>
@@ -170,22 +110,31 @@
   var grafActual = new Chart(ctx1,config)
   var grafAnterior = new Chart(ctx2,config)
 
-  let url = 'http://localhost:8080/api/pedidos'
-  fetch(url)
-          .then( response => response.json() )
-          .then( datos => mostrarGraficos(datos) )
-          .catch( error => console.log(error))
 
-  const mostrarGraficos = (datosPedido) =>{
+  const mostrarGrafico = (datosPedido,grafico) =>{
     datosPedido.forEach(element => {
-      grafActual.data['labels'].push(element.tipo)
-      console.log(element.tipo)
-      grafActual.data['datasets'][0].data.push(element.cantidad)
-      console.log(element.cantidad)
-      grafActual.update()
-      grafAnterior.update()
+      grafico.data['labels'].push(element[0])
+      console.log(element[0])
+      grafico.data['datasets'][0].data.push(parseInt(element[1]))
+      console.log(element[1])
+      grafico.update()
     });
   }
+
+  let url = 'http://localhost:8080/api/pedidoactual'
+  fetch(url)
+          .then( response => response.json() )
+          .then( pedidoMasReciente => mostrarGrafico(pedidoMasReciente,grafActual) )
+          .catch( error => console.log(error))
+
+
+  let url = 'http://localhost:8080/api/pedidoanterior'
+  fetch(url)
+          .then( response => response.json() )
+          .then( pedidoAnterior =>  mostrarGrafico(pedidoAnterior,grafAnterior) )
+          .catch( error => console.log(error))
+
+
 
 </script>
 

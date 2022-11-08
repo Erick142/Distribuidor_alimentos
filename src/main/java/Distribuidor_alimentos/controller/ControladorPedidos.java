@@ -8,7 +8,6 @@ import Distribuidor_alimentos.repository.RepoPedido;
 import Distribuidor_alimentos.service.ServicioUsuarios;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +34,10 @@ public class ControladorPedidos {
     @Autowired
     private RepoPedido repoPedido;
 
+    int id;
+    List<DetallePedido> listaDetallepedido = new ArrayList<>();
+    private Pedido nuevoPedido = new Pedido();
+
     @GetMapping("/pedidos")
     public void listarPedidos(Model model, Principal principal) {
         Usuario usuarioActual = obtenerUsuarioActual(principal);
@@ -46,20 +49,13 @@ public class ControladorPedidos {
         return repoDetallepedidos.findById(id);
     }
 
-    int id;
+
     @GetMapping("/nuevoPedido")
     public String nuevoPedido(Model model, Principal principal){
         listarMenus(model, principal);
-        listarDetallePedido(model,principal);
-        Pedido a = new Pedido();
-        repoPedido.save(a);
-        DetallePedido b = new DetallePedido();
-        repoDetallepedidos.save(b);
-        System.out.println(a.toString());
-        System.out.println(b.toString());
-        id=a.getId();
-        System.out.println("id :"+id);
-        a.setId_detallePedido(b);
+        listarDetallePedido(model,principal,listaDetallepedido);
+
+        model.addAttribute("pedidos", listaDetallepedido);
         return "nuevoPedido";
     }
 
@@ -70,41 +66,55 @@ public class ControladorPedidos {
             @RequestParam(name = "tipo") String tipo,
             @RequestParam(name = "cantidad")int cantidad,
             @RequestParam(name = "nota")String nota,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
             Model model,
             Principal principal
     ){
-        /*
-        List<DetallePedido> listaDetallepedido = new ArrayList<>();
-        DetallePedido detallepedidoAux = new DetallePedido(tipo,cantidad,nota,fecha,servicioUsuarios.obtener(principal.getName()));
+        listarDetallePedido(model,principal,listaDetallepedido);
+        Usuario usuarioActual=obtenerUsuarioActual(principal);
+
+        repoPedido.save(this.nuevoPedido);
+        id=nuevoPedido.getId();
+        //DetallePedido b = new DetallePedido();
+
+        //listar menus
+        listarMenus(model,principal);
+        Pedido pedido = repoPedido.findById(id).get();
+        DetallePedido detallepedidoAux = new DetallePedido(tipo,cantidad,nota,pedido,usuarioActual);
         listaDetallepedido.add(detallepedidoAux);
         System.out.println(detallepedidoAux);
         System.out.println(listaDetallepedido);
-        //model.addAttribute("pedidos", listaDetallepedido);
-        */ //manejo con arraylist
+        //DetallePedido detalle = new DetallePedido(tipo,cantidad,nota,pedido);
+        //repoDetallepedidos.save(new DetallePedido(tipo,cantidad,nota,fecha));
+        //Pedido pedidoActual= repoPedido.findById(id).get();
+        //repoPedido.save(pedidoActual);
+        //repoDetallepedidos.save(detalle);
 
-        listarDetallePedido(model,principal);
-        Usuario usuarioActual=obtenerUsuarioActual(principal);
-        //System.out.println("id Pedido:"+id);
-        //Pedido pedidoActual=repoPedido.findById(this.id).get();
-        repoDetallepedidos.save(new DetallePedido(tipo,cantidad,nota,fecha));
+        //hacerPedido(model,principal,nuevoPedido);
+
         return "redirect:/nuevoPedido";
     }
 
+    @DeleteMapping("/cancelarpedido")
+    public String cancelarPedido(){
+        borrarPedido(id);
+    return "redirect:/home";
+    }
+
+
     @GetMapping("/listardetalle")
-    public String listarDetallePedido(Model model,Principal principal){
+    public String listarDetallePedido(Model model,Principal principal, List<DetallePedido> listaDetallepedido){
         Usuario usuarioActual = obtenerUsuarioActual(principal);
-        List lista_detalle =repoDetallepedidos.encontrarPorUsuario(usuarioActual);
+        //List lista_detalle =repoDetallepedidos.encontrarPorUsuario(usuarioActual);
         //System.out.println("institucion : "+usuarioActual);
         //System.out.println("lista : "+lista_detalle);
-        model.addAttribute("detallepedidos",lista_detalle );
+        model.addAttribute("detallepedidos",listaDetallepedido );
         return "redirect:/nuevoPedido";
     }
 
     @PostMapping("/hacerpedido")
     public String hacerPedido(
-            //@RequestParam(name = "fecha")
-            //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaCreacion,
+            @RequestParam(name = "fecha")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaEntrega,
             Model model,
             Principal principal
     ){
@@ -112,49 +122,93 @@ public class ControladorPedidos {
         //,id_detallePedido
         Usuario usuarioActual = obtenerUsuarioActual(principal);
         //DetallePedido detallePedido = repoDetallepedidos.findById(id).get();
-        Pedido pedidoActual=repoPedido.findById(id).get();
+        //Pedido pedidoActual=repoPedido.findById(id).get();
         LocalDate fechaCreacion = LocalDate.now();
-        pedidoActual.setFechaCreacion(fechaCreacion);
-        pedidoActual.setUsuario(usuarioActual);
-        repoPedido.save(new Pedido(fechaCreacion,usuarioActual));
+        nuevoPedido.setFechaCreacion(fechaCreacion);
+        nuevoPedido.setUsuario(usuarioActual);
+        nuevoPedido.setFechaEntrega(fechaEntrega);
+
+        for(DetallePedido pedido:listaDetallepedido) {
+            repoDetallepedidos.save(pedido);
+        }
+        repoPedido.save(nuevoPedido);
         return "redirect:/home";
     }
 
+    @GetMapping("/rectificar/{id}")
+    public String rectificar(@PathVariable(value = "id") int id_pedido, Model model, Principal principal) {
+        Usuario usuarioActual = obtenerUsuarioActual(principal);
+        model.addAttribute("pedidos", repoDetallepedidos.obtenerDetalle(id_pedido));
+    return "rectificarPedido";}
 
-    @PutMapping(value="/rectificarPedido")
-    public String editarPedido(@PathVariable(value = "id") int id,
+    @GetMapping("/verrectificar")
+    public String verrectificar() {
+        return "rectificarPedido";}
+
+    @PutMapping(value="/editarPedido/{id}")
+    public String editarPedido(@PathVariable(value = "id") int id_pedido,
                                               @RequestParam(name = "tipo") String tipo,
                                               @RequestParam(name = "cantidad") int cantidad,
                                               @RequestParam(name = "nota") String nota,
                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
                                               Model model
     ){
-        model.addAttribute("pedido", repoDetallepedidos.findById(id));
-        DetallePedido detallepedidoAEditar = repoDetallepedidos.findById(id).get();
+        model.addAttribute("pedido", repoDetallepedidos.findById(id_pedido));
+        DetallePedido detallepedidoAEditar = repoDetallepedidos.findById(id_pedido).get();
         detallepedidoAEditar.setTipo(tipo);
         detallepedidoAEditar.setCantidad(cantidad);
         detallepedidoAEditar.setNota(nota);
-        detallepedidoAEditar.setFechaEntrega(fecha);
         repoDetallepedidos.save(detallepedidoAEditar);
         return "redirect:home";
     }
 
     //Eliminar pedido
     @GetMapping("/borrarpedido/{id}")
-    public String borrarPedido(@PathVariable(value = "id") int id) {
-        if (repoDetallepedidos.findById(id).isPresent()
-                && !repoDetallepedidos.findById(id).get().getFechaEntrega().isBefore(LocalDate.now())){
-        repoDetallepedidos.deleteById(id);}
+    public String borrarPedido(@PathVariable(value = "id") int id_pedido) {
+        if (repoPedido.findById(id_pedido).isPresent()
+                && !repoPedido.findById(id_pedido).get().getFechaEntrega().isBefore(LocalDate.now())){
+        repoPedido.deleteById(id_pedido);}
         else{return "redirect:error";}
         return "redirect:confirmacion";
     }
 
 
+    @GetMapping("/verestadisticas")
+    public String estadisticas(Model model,Principal principal) {
+
+        List<Pedido> pedidoMasReciente = repoPedido.pedidoActual(obtenerUsuarioActual(principal));
+        List<Pedido> pedidoAnterior = repoPedido.pedidoAnterior(obtenerUsuarioActual(principal));
+        int indRec = pedidoMasReciente.indexOf(id);
+        int indAnt = pedidoAnterior.indexOf(id);
+        int idRec = pedidoMasReciente.get(0).getId();
+        System.out.println("id 1 :"+idRec);
+        int idAnt = pedidoAnterior.get(0).getId();
+        System.out.println("id 2 :"+idAnt);
+        model.addAttribute("pedidoMasReciente", repoDetallepedidos.encontrarPorUsuario(obtenerUsuarioActual(principal)));
+        model.addAttribute("pedidoAnterior", repoDetallepedidos.findById(idAnt).get());
+        System.out.println("pedido mas reciente :" + repoDetallepedidos.findById(idRec).get());
+        System.out.println("pedido anterior :"+ repoDetallepedidos.findById(idAnt).get());
+
+
+        return "estadisticas";
+    }
+
     //Estadísticas
     @GetMapping("/estadisticas/{id}")
-    public String verEstadicticas(@PathVariable(value = "id") int id, Model model,Principal principal) {
-        model.addAttribute("pedidoMasReciente", repoPedido.findById(id));
-        model.addAttribute("pedidoAnterior", repoPedido.pedidoAnterior(obtenerUsuarioActual(principal)));
+    public String verEstadisticas(@PathVariable(value = "id") int id_pedido, Model model,Principal principal) {
+        int idPedidoActual = repoPedido.idActual(obtenerUsuarioActual(principal));
+        int idPedidoAnterior = repoPedido.idAnterior(obtenerUsuarioActual(principal));
+        model.addAttribute("pedidoMasReciente", repoDetallepedidos.obtenerDetalleActual(idPedidoActual));
+        model.addAttribute("pedidoAnterior", repoDetallepedidos.obtenerDetalleAnterior(idPedidoAnterior));
+        Usuario usuarioActual=obtenerUsuarioActual(principal);
+        Optional<Enlace> listaDistribuidores = repoEnlaces.findByInstitucion(usuarioActual);
+        Usuario distribuidor=listaDistribuidores.get().getDistribuidor();
+        LocalDate fecha = repoPedido.pedidoActual(usuarioActual).get(0).getFechaCreacion();
+        model.addAttribute("nombreDist", distribuidor);
+        model.addAttribute("nombreUsuario",usuarioActual);
+        model.addAttribute("fechaSolicitud",fecha);
+        model.addAttribute("idPedido",idPedidoActual);
+
         return "estadisticas";
     }
 
@@ -167,7 +221,6 @@ public class ControladorPedidos {
             if (usuarioActual.getRoles().equals("institucion")){
                 Optional<Enlace> listaDistribuidores = repoEnlaces.findByInstitucion(usuarioActual);
                 Usuario distribuidor=listaDistribuidores.get().getDistribuidor();
-                //System.out.println(distribuidor.getEmail());
                 model.addAttribute("menus",repoMenus.encontrarPorUsuario(distribuidor.getEmail()));
 
             }else if (usuarioActual.getRoles().equals("distribuidor")){
@@ -200,14 +253,6 @@ public class ControladorPedidos {
         Usuario usuarioActual = servicioUsuarios.obtener(principal.getName());
         return usuarioActual;
     }
-
-    /*
-    public int obtenerIdDetalle(Principal principal){
-        Usuario usuarioActual = servicioUsuarios.obtener(principal.getName());
-        int id_detalle = repoDetallepedidos.encontrarPorUsuario(usuarioActual);
-        return id_detalle;
-    }
-     */ //probar
 
     public String codificarImagen(MultipartFile icono) throws IOException {
         byte[] bytesIcono=icono.getBytes();

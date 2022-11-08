@@ -14,9 +14,15 @@ public interface RepoDetallepedidos extends CrudRepository<DetallePedido,Integer
     @Query(value = "SELECT * FROM detalle_pedidos dp WHERE dp.usuario_email=?1", nativeQuery = true)
     public List<DetallePedido> encontrarPorUsuario(Usuario usuarioActual);
 
-    /*
-    @Query(value = "SELECT * FROM Pedidos WHERE usuario_email ORDER BY fecha DESC LIMIT 1,1;", nativeQuery = true)
-    public List<DetallePedido> pedidoAnterior(Usuario usuario);
-     */
+
+    @Query(value = "SELECT * FROM detalle_pedidos dp WHERE dp.pedido_id=?1", nativeQuery = true)
+    public List<DetallePedido> obtenerDetalle(int id);
+
+    @Query(value = "SELECT cantidad,tipo FROM detalle_pedidos dp WHERE dp.pedido_id=?1 ORDER BY id DESC LIMIT 1,1", nativeQuery = true)
+    public List<String> obtenerDetalleActual(int pedido_id);
+
+    @Query(value = "SELECT cantidad,tipo FROM detalle_pedidos dp WHERE dp.pedido_id=?1 ORDER BY id DESC LIMIT 2,2", nativeQuery = true)
+    public List<String> obtenerDetalleAnterior(int pedido_id);
+
 
 }

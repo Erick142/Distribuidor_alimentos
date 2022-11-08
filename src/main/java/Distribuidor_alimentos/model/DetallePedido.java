@@ -7,6 +7,7 @@ import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,34 +18,38 @@ public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "tipo_id")
     private Menu menu;
-    private String tipo;
-    private int cantidad;
-    private String nota;
-    private LocalDate fechaEntrega;
-    @ManyToOne
-    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
+    private String tipo;
+    private int cantidad;
+    private String nota;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_email")
+    private Usuario usuario;
+
 
     //Pedido pedido,Menu menu
-    public DetallePedido(String tipo, int cantidad, String nota, LocalDate fechaEntrega, Usuario usuario) {
+    public DetallePedido(String tipo, int cantidad, String nota,Menu menu,Pedido pedido) {
         this.tipo =tipo;
         this.cantidad=cantidad;
         this.nota=nota;
-        this.fechaEntrega=fechaEntrega;
-        this.usuario=usuario;
+        this.menu=menu;
+        this.pedido=pedido;
     }
 
-    public DetallePedido(String tipo, int cantidad, String nota, LocalDate fechaEntrega) {
+    public DetallePedido(String tipo, int cantidad, String nota,Pedido pedido,Usuario usuario) {
         this.tipo =tipo;
         this.cantidad=cantidad;
         this.nota=nota;
-        this.fechaEntrega=fechaEntrega;
+        this.pedido=pedido;
+        this.usuario=usuario;
     }
 
 }
