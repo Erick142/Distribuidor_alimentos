@@ -8,12 +8,15 @@ import Distribuidor_alimentos.repository.RepoUsuarios;
 import Distribuidor_alimentos.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,32 +37,14 @@ public class ControladorUsuarios {
     @Autowired
     private RepoPedido repoPedidos;
 
-    @Autowired
-    private RepoUsuarios repoUsuarios;
 
     @GetMapping("/")
     public String index(Model model){
-        if (noticias.findAllByOrderByIdDesc().size()>0){
-            List<Noticia> noticias1=new ArrayList<>();
-            for (int i=0;i<noticias.findAllByOrderByIdDesc().size()&&i<3;i++){
-                noticias1.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias1",noticias1);
-        }
-        if (noticias.findAllByOrderByIdDesc().size()>3){
-            List<Noticia> noticias2=new ArrayList<>();
-            for (int i=3;i<noticias.findAllByOrderByIdDesc().size()&&i<6;i++){
-                noticias2.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias2",noticias2);
-        }
-        if (noticias.findAllByOrderByIdDesc().size()>6){
-            List<Noticia> noticias3=new ArrayList<>();
-            for (int i=6;i<noticias.findAllByOrderByIdDesc().size()&&i<9;i++){
-                noticias3.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias3",noticias3);
-        }
+        //carrusel
+        model.addAttribute("noticias1",carrusel(0));
+        model.addAttribute("noticias2",carrusel(1));
+        model.addAttribute("noticias3",carrusel(2));
+        //end carrusel
         return "index";
     }
     @GetMapping("/login")
@@ -78,43 +63,27 @@ public class ControladorUsuarios {
     @GetMapping("/home")
     public String home(Authentication authentication,Principal principal,Model model){
         //carrusel;
-        if (noticias.findAllByOrderByIdDesc().size()>0){
-            List<Noticia> noticias1=new ArrayList<>();
-            for (int i=0;i<noticias.findAllByOrderByIdDesc().size()&&i<3;i++){
-                noticias1.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias1",noticias1);
-        }
-        if (noticias.findAllByOrderByIdDesc().size()>3){
-            List<Noticia> noticias2=new ArrayList<>();
-            for (int i=3;i<noticias.findAllByOrderByIdDesc().size()&&i<6;i++){
-                noticias2.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias2",noticias2);
-        }
-        if (noticias.findAllByOrderByIdDesc().size()>6){
-            List<Noticia> noticias3=new ArrayList<>();
-            for (int i=6;i<noticias.findAllByOrderByIdDesc().size()&&i<9;i++){
-                noticias3.add(noticias.findAllByOrderByIdDesc().get(i));
-            }
-            model.addAttribute("noticias3",noticias3);
-        }
+        model.addAttribute("noticias1",carrusel(0));
+        model.addAttribute("noticias2",carrusel(1));
+        model.addAttribute("noticias3",carrusel(2));
         //end carrusel
-        model.addAttribute("username",servicioUsuarios.getRepo().findById(principal.getName()).get().getNombre());
+
+        if (!servicioUsuarios.existePorEmail(principal.getName())){
+            return "redirect:/login";
+        }
+        Usuario usuarioLogeado=servicioUsuarios.obtener(principal.getName());
+        model.addAttribute("username",usuarioLogeado.getNombre());
+        // si tiene el rol distribuidor
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("distribuidor"))){
-            model.addAttribute("enlaces",servicioEnlace.encontrarEnlacesPorDistribuidorYEstado(servicioUsuarios.obtener(principal.getName()),"en espera"));
-            //usar mis instituciones para obtener los pedidos
-            List<Usuario> misInstituciones=servicioEnlace.obtenerMisInstituciones(servicioUsuarios.obtener(principal.getName()));
-            List<Pedido> pedidosins=new ArrayList<>();
-            for (Usuario user:misInstituciones){
-                pedidosins.addAll(repoPedidos.encontrarPorUsuario(user));
-            }
+            model.addAttribute("enlaces",servicioEnlace.encontrarEnlacesPorDistribuidorYEstado(usuarioLogeado,"en espera"));
+            //encontrar pedidos de las instituciones.
+            List<Pedido> pedidosDeMisInstituciones=servicioUsuarios.encontrarLosPedidosDeMisInstituciones(usuarioLogeado);
            // Collections.sort(pedidosins);
-            model.addAttribute("pedidos",pedidosins);
+            model.addAttribute("pedidos",pedidosDeMisInstituciones);
             return "homedistribuidor";
         }
-        model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())));
-        model.addAttribute("pedidos", repoPedidos.encontrarPorUsuario(servicioUsuarios.obtener(principal.getName())));
+        model.addAttribute("enlace",servicioEnlace.encontrarEnlacePorInstitucion(usuarioLogeado));
+        model.addAttribute("pedidos", repoPedidos.encontrarPorUsuario(usuarioLogeado));
         return "userhome";
     }
     @PostMapping("/registrar")
@@ -151,26 +120,25 @@ public class ControladorUsuarios {
     }
     @PostMapping("/resolucion")
     public String resolucion(@RequestParam(name = "seleccion") String seleccion,
-                             @RequestParam(name = "id") String id,
+                             @RequestParam(name = "id") Integer id,
                              Principal principal,Model model){
-        Integer intId=Integer.parseInt(id);
         //si el id del enlace no existe
-        if (!servicioEnlace.encontrarPorId(intId).isPresent()){
+        if (!servicioEnlace.encontrarPorId(id).isPresent()){
             model.addAttribute("error","ese enlace no existe");
             return "redirect:home";
         }
         //si el enlace no es del distribuidor que inicio sesion
-        if (!servicioEnlace.encontrarPorId(intId).get().getDistribuidor().getEmail().equals(principal.getName())) {
+        if (!servicioEnlace.encontrarPorId(id).get().getDistribuidor().getEmail().equals(principal.getName())) {
             model.addAttribute("error","ese enlace no es de tu pertenencia");
             System.out.println("asdsa");
             return "redirect:home";
         }
         if ((seleccion.equals("aceptado"))) {
-            Enlace enlace=servicioEnlace.encontrarPorId(intId).get();
+            Enlace enlace=servicioEnlace.encontrarPorId(id).get();
             enlace.setEstado("aceptado");
             servicioEnlace.guardarEnlace(enlace);;
         } else {
-            Enlace enlace=servicioEnlace.encontrarPorId(intId).get();
+            Enlace enlace=servicioEnlace.encontrarPorId(id).get();
             enlace.setEstado("rechazado");
             servicioEnlace.guardarEnlace(enlace);
         }
@@ -227,5 +195,10 @@ public class ControladorUsuarios {
         usuario.setTokenPassword(null);
         servicioUsuarios.guardar(usuario);
         return "redirect:login";
+    }
+
+    public List<Noticia> carrusel(int pageInt){
+        Pageable page=PageRequest.of(pageInt,3);
+        return noticias.findAllByOrderByIdDesc(page);
     }
 }
