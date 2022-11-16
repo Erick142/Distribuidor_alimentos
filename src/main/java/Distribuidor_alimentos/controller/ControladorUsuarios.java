@@ -27,7 +27,7 @@ public class ControladorUsuarios {
     @Autowired
     private ServicioUsuarios servicioUsuarios;
     @Autowired
-    private RepoNoticias noticias;
+    private ServicioNoticias servicioNoticias;
     @Autowired
     private ServicioEnlace servicioEnlace;
     @Autowired
@@ -41,9 +41,9 @@ public class ControladorUsuarios {
     @GetMapping("/")
     public String index(Model model){
         //carrusel
-        model.addAttribute("noticias1",carrusel(0));
-        model.addAttribute("noticias2",carrusel(1));
-        model.addAttribute("noticias3",carrusel(2));
+        model.addAttribute("noticias1",servicioNoticias.carrusel(0));
+        model.addAttribute("noticias2",servicioNoticias.carrusel(1));
+        model.addAttribute("noticias3",servicioNoticias.carrusel(2));
         //end carrusel
         return "index";
     }
@@ -63,9 +63,9 @@ public class ControladorUsuarios {
     @GetMapping("/home")
     public String home(Authentication authentication,Principal principal,Model model){
         //carrusel;
-        model.addAttribute("noticias1",carrusel(0));
-        model.addAttribute("noticias2",carrusel(1));
-        model.addAttribute("noticias3",carrusel(2));
+        model.addAttribute("noticias1",servicioNoticias.carrusel(0));
+        model.addAttribute("noticias2",servicioNoticias.carrusel(1));
+        model.addAttribute("noticias3",servicioNoticias.carrusel(2));
         //end carrusel
 
         if (!servicioUsuarios.existePorEmail(principal.getName())){
@@ -197,8 +197,5 @@ public class ControladorUsuarios {
         return "redirect:login";
     }
 
-    public List<Noticia> carrusel(int pageInt){
-        Pageable page=PageRequest.of(pageInt,3);
-        return noticias.findAllByOrderByIdDesc(page);
-    }
+
 }

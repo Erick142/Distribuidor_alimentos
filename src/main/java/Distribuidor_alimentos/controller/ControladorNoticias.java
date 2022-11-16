@@ -3,6 +3,7 @@ package Distribuidor_alimentos.controller;
 import Distribuidor_alimentos.model.Noticia;
 import Distribuidor_alimentos.repository.RepoNoticias;
 import Distribuidor_alimentos.repository.RepoUsuarios;
+import Distribuidor_alimentos.service.ServicioNoticias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,7 @@ import java.util.Base64;
 @Controller
 public class ControladorNoticias {
     @Autowired
-    private RepoNoticias noticias;
+    private ServicioNoticias servicioNoticias;
     @Autowired
     private RepoUsuarios usuarios;
 
@@ -35,26 +36,32 @@ public class ControladorNoticias {
                         Principal principal) throws IOException {
         byte[] bytesImg=imagen.getBytes();
         String base64 = Base64.getEncoder().encodeToString(bytesImg);
-        noticias.save(new Noticia(titulo,subtitulo,cuerpo, base64,usuarios.findById(principal.getName()).get()));
+        servicioNoticias.guardarNoticia(new Noticia(titulo,subtitulo,cuerpo, base64,usuarios.findById(principal.getName()).get()));
         return "redirect:../home";
     }
     @GetMapping("/ver/{id}")
-    public String ver(@PathVariable(name = "id")String id,
+    public String ver(@PathVariable(name = "id")Integer id,
                       Model model,Principal principal){
         if (principal!=null){
             model.addAttribute("usuario",usuarios.findById(principal.getName()).get().getEmail());
         }
-        Noticia noticia=noticias.findById(Integer.parseInt(id)).get();
-        model.addAttribute("noticia",noticia);
+        //si no existe
+        if (!servicioNoticias.existe(id)){
+            return "redirect://localhost:8080/";
+        }
+        model.addAttribute("noticia",servicioNoticias.encontrarPorId(id));
         return "vernoticia";
     }
     @GetMapping("/editarnoticia")
-    public String editarnoticia(@RequestParam(name = "id") String id,
+    public String editarnoticia(@RequestParam(name = "id") Integer id,
                          Model model, Principal principal){
-        if (!usuarios.findById(principal.getName()).get().getEmail().equals(noticias.findById(Integer.parseInt(id)).get().getAutor().getEmail())){
+        if (!servicioNoticias.existe(id)){
+            return "redirect://localhost:8080/";
+        }
+        if (!usuarios.findById(principal.getName()).get().getEmail().equals(servicioNoticias.encontrarPorId(id).getAutor().getEmail())){
             return "redirect:http://localhost:8080/home";
         }
-        model.addAttribute("noticia",noticias.findById(Integer.parseInt(id)).get());
+        model.addAttribute("noticia",servicioNoticias.encontrarPorId(id));
         return "editarnoticia";
     }
     @PostMapping("/editar")
@@ -62,19 +69,19 @@ public class ControladorNoticias {
                          @RequestParam(name = "subtitulo", required = true, defaultValue = "null") String subtitulo,
                          @RequestParam(name = "cuerpo", defaultValue = "null",required = true) String cuerpo,
                          @RequestParam(name = "imagen",defaultValue = "null", required = true) MultipartFile imagen,
-                         @RequestParam(name = "id") String id,
+                         @RequestParam(name = "id") Integer id,
                          Principal principal) throws IOException {
-        if (!usuarios.findById(principal.getName()).get().getEmail().equals(noticias.findById(Integer.parseInt(id)).get().getAutor().getEmail())){
+        if (!usuarios.findById(principal.getName()).get().getEmail().equals(servicioNoticias.encontrarPorId(id).getAutor().getEmail())){
             return "redirect:http://localhost:8080/home";
         }
-        Noticia noticia=noticias.findById(Integer.parseInt(id)).get();
+        Noticia noticia=servicioNoticias.encontrarPorId(id);
         noticia.setCuerpo(cuerpo);
         noticia.setTitulo(titulo);
         noticia.setSubtitulo(subtitulo);
         byte[] bytesImg=imagen.getBytes();
         String base64 = Base64.getEncoder().encodeToString(bytesImg);
         noticia.setImagen(base64);
-        noticias.save(noticia);
+        servicioNoticias.guardarNoticia(noticia);
         return "redirect:http://localhost:8080/home";
     }
 }

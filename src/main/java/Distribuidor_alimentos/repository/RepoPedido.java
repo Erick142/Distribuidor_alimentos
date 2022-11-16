@@ -16,4 +16,5 @@ public interface RepoPedido extends CrudRepository<Pedido,Integer> {
     @Query(value = "SELECT * FROM Pedidos p WHERE p.usuario_email=?1 ORDER BY fecha DESC LIMIT 1,1", nativeQuery = true)
     public List<Pedido> pedidoAnterior(Usuario usuario);
 
+
 }
