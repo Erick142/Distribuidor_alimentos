@@ -93,7 +93,7 @@
         </div>
         <div class="offcanvas-body">
             <div th:if="${enlaces.isEmpty()}">usted no tiene ningun enlace en espera</div>
-            <form th:if="${!enlaces.isEmpty()}" th:each="enlace:${enlaces}" th:action="'/resolucion?id='+${enlace.getId()}" method="post">
+            <form th:if="${!enlaces.isEmpty()}" th:each="enlace:${enlaces}" th:action="'/enlace/resolucion?id='+${enlace.getId()}" method="post">
                 <b th:text="${enlace.getInstitucion().email}"></b>
                 <button class="btn btn-success" type="submit" name="seleccion" value="aceptado">aceptar</button>
                 <button class="btn btn-danger" type="submit" name="seleccion" value="rechazado">rechazar</button>

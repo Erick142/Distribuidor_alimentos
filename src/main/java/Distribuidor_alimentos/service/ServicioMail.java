@@ -25,7 +25,7 @@ public class ServicioMail {
         }while (!usuarios.encontrarPorToken(token).isEmpty());
         Usuario usuario=usuarios.obtener(toEmail);
         usuario.setTokenPassword(token);
-        mensaje.setText("http://localhost:8080/cambiar_contraseña?token="+token);
+        mensaje.setText("http://localhost:8080/usuario/cambiar_contraseña?token="+token);
         usuarios.guardar(usuario);
         mensaje.setSubject("recuperar contraseña");
         mailSender.send(mensaje);

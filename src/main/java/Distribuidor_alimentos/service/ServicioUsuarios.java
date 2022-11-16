@@ -24,9 +24,9 @@ public class ServicioUsuarios {
     private RepoPedido repoPedidos;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    public void guardar(Usuario usuario){
+    public Usuario guardar(Usuario usuario){
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        repo.save(usuario);
+        return repo.save(usuario);
     }
     public boolean existePorEmail(String email){
         return repo.existsById(email);

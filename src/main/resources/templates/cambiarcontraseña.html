@@ -11,7 +11,7 @@
 <body>
 <div th:replace="/fragments/navbar :: navbar"></div>
 <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: rgba(236,236,236,0.85);">
-  <form th:action="@{'actualizarcontraseña?token='+${token}}" method="post" >
+  <form th:action="@{'usuario/actualizarcontraseña?token='+${token}}" method="post" >
     <legend style="text-align: center;" class="my-3 ">cambiar contraseña</legend>
     <div class="row my-3 justify-content-center">
       <label for="password" class="col-3">Nueva contraseña</label>
