@@ -26,4 +26,7 @@ public class ServicioNoticias {
         Pageable page= PageRequest.of(pageInt,3);
         return repoNoticias.findAllByOrderByIdDesc(page);
     }
+    public void eliminar(Noticia noticia){
+        repoNoticias.delete(noticia);
+    }
 }

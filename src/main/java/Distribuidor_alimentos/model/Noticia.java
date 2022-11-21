@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -27,9 +28,7 @@ public class Noticia {
     @Column
     private String cuerpo;
     @Column
-    private String etiquetas;
-    @Column
-    private Date fecha;
+    private LocalDate fecha;
     @Lob
     private String imagen;
     @ManyToOne
