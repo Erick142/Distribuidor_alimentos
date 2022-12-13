@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-
-
+@AllArgsConstructor
 @Entity
 public class Noticia {
 
@@ -35,6 +32,15 @@ public class Noticia {
     private Usuario autor;
 
     public Noticia(String titulo, String subtitulo, String cuerpo, String base64,Usuario autor) {
+        this.titulo=titulo;
+        this.subtitulo=subtitulo;
+        this.cuerpo=cuerpo;
+        this.imagen=base64;
+        this.autor=autor;
+    }
+
+    public Noticia(Integer id,String titulo, String subtitulo, String cuerpo, String base64,Usuario autor) {
+        this.id=id;
         this.titulo=titulo;
         this.subtitulo=subtitulo;
         this.cuerpo=cuerpo;

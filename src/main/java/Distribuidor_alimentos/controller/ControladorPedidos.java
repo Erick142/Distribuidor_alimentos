@@ -5,6 +5,7 @@ import Distribuidor_alimentos.repository.RepoEnlaces;
 import Distribuidor_alimentos.repository.RepoMenus;
 import Distribuidor_alimentos.repository.RepoDetallepedidos;
 import Distribuidor_alimentos.repository.RepoPedido;
+import Distribuidor_alimentos.service.ServicioDetallepedidos;
 import Distribuidor_alimentos.service.ServicioUsuarios;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @Controller
 public class ControladorPedidos {
     @Autowired
-    private RepoDetallepedidos repoDetallepedidos;
+    private ServicioDetallepedidos servicioDetallepedidos;
     @Autowired
     private ServicioUsuarios servicioUsuarios;
     @Autowired
@@ -38,12 +39,12 @@ public class ControladorPedidos {
     @GetMapping("/pedidos")
     public void listarPedidos(Model model, Principal principal) {
         Usuario usuarioActual = obtenerUsuarioActual(principal);
-        model.addAttribute("pedidos", repoDetallepedidos.encontrarPorUsuario(usuarioActual));
+        model.addAttribute("pedidos", servicioDetallepedidos.encontrarPorUsuario(usuarioActual));
     }
 
     @GetMapping("/pedido/{id}")
     public Optional<DetallePedido> buscarPorID(@PathVariable int id) {
-        return repoDetallepedidos.findById(id);
+        return servicioDetallepedidos.encontrarPorId(id);
     }
 
     int id;
@@ -54,7 +55,7 @@ public class ControladorPedidos {
         Pedido a = new Pedido();
         repoPedido.save(a);
         DetallePedido b = new DetallePedido();
-        repoDetallepedidos.save(b);
+        servicioDetallepedidos.guardar(b);
         System.out.println(a.toString());
         System.out.println(b.toString());
         id=a.getId();
@@ -87,14 +88,14 @@ public class ControladorPedidos {
         Usuario usuarioActual=obtenerUsuarioActual(principal);
         //System.out.println("id Pedido:"+id);
         //Pedido pedidoActual=repoPedido.findById(this.id).get();
-        repoDetallepedidos.save(new DetallePedido(tipo,cantidad,nota,fecha));
+        servicioDetallepedidos.guardar(new DetallePedido(tipo,cantidad,nota,fecha));
         return "redirect:/nuevoPedido";
     }
 
     @GetMapping("/listardetalle")
     public String listarDetallePedido(Model model,Principal principal){
         Usuario usuarioActual = obtenerUsuarioActual(principal);
-        List lista_detalle =repoDetallepedidos.encontrarPorUsuario(usuarioActual);
+        List lista_detalle =servicioDetallepedidos.encontrarPorUsuario(usuarioActual);
         //System.out.println("institucion : "+usuarioActual);
         //System.out.println("lista : "+lista_detalle);
         model.addAttribute("detallepedidos",lista_detalle );
@@ -129,22 +130,22 @@ public class ControladorPedidos {
                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
                                               Model model
     ){
-        model.addAttribute("pedido", repoDetallepedidos.findById(id));
-        DetallePedido detallepedidoAEditar = repoDetallepedidos.findById(id).get();
+        model.addAttribute("pedido", servicioDetallepedidos.encontrarPorId(id));
+        DetallePedido detallepedidoAEditar = servicioDetallepedidos.encontrarPorId(id).get();
         detallepedidoAEditar.setTipo(tipo);
         detallepedidoAEditar.setCantidad(cantidad);
         detallepedidoAEditar.setNota(nota);
         detallepedidoAEditar.setFechaEntrega(fecha);
-        repoDetallepedidos.save(detallepedidoAEditar);
+        servicioDetallepedidos.guardar(detallepedidoAEditar);
         return "redirect:home";
     }
 
     //Eliminar pedido
     @GetMapping("/borrarpedido/{id}")
     public String borrarPedido(@PathVariable(value = "id") int id) {
-        if (repoDetallepedidos.findById(id).isPresent()
-                && !repoDetallepedidos.findById(id).get().getFechaEntrega().isBefore(LocalDate.now())){
-        repoDetallepedidos.deleteById(id);}
+        if (servicioDetallepedidos.encontrarPorId(id).isPresent()
+                && !servicioDetallepedidos.encontrarPorId(id).get().getFechaEntrega().isBefore(LocalDate.now())){
+        servicioDetallepedidos.eliminarPorId(id);}
         else{return "redirect:error";}
         return "redirect:confirmacion";
     }

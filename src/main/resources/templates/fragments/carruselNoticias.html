@@ -1,51 +1,70 @@
 
-    <div id="carouselExampleCaptions" class="carousel slide pt-5" data-bs-ride="false" th:fragment="carruselNoticias">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <a th:each="noticia:${noticias1}" th:href="@{'noticia/ver/'+${noticia.id}}">
-                        <div>
-                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <a th:each="noticia:${noticias2}" th:href="@{'noticia/ver/'+${noticia.id}}">
-                        <div>
-                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-            <div class="carousel-item ">
-                <div class="cards-wrapper">
-                    <a th:each="noticia:${noticias3}" th:href="@{'noticia/ver/'+${noticia.id}}">
-                        <div>
-                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img-top" alt="...">
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev" id="atras">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next" id="siguiente">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+<div id="carouselExampleCaptions" class="carousel slide pt-5" data-bs-ride="carousel" th:fragment="carruselNoticias">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active px-4" data-bs-interval="4000">
+            <div class="cards-wrapper">
+                <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 g-3">
+                    <div class="col" th:each="noticia:${noticias1}">
+                        <a class="card h-100 card-carrusel" th:href="@{'noticia/ver/'+${noticia.id}}">
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title" th:text="${noticia.titulo}"></h5>
+                                <p class="card-text" th:text="${noticia.subtitulo}"></p>
+                                <p class="card-text" th:text="${noticia.autor.nombre}" ><small>Last updated 3 mins ago</small></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item px-4" data-bs-interval="4000">
+            <div class="cards-wrapper">
+                <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 g-3">
+                    <div class="col" th:each="noticia:${noticias2}">
+                        <a class="card h-100 card-carrusel" th:href="@{'noticia/ver/'+${noticia.id}}">
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title" th:text="${noticia.titulo}"></h5>
+                                <p class="card-text" th:text="${noticia.subtitulo}"></p>
+                                <p class="card-text" th:text="${noticia.autor.nombre}" ><small>Last updated 3 mins ago</small></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item px-4" data-bs-interval="4000">
+            <div class="cards-wrapper">
+                <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 g-3">
+                    <div class="col" th:each="noticia:${noticias3}">
+                        <a class="card h-100 card-carrusel" th:href="@{'noticia/ver/'+${noticia.id}}">
+                            <img th:src="@{'data:image/jpeg;base64,'+${noticia.imagen}}"  class="card-img">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title" th:text="${noticia.titulo}"></h5>
+                                <p class="card-text" th:text="${noticia.subtitulo}"></p>
+                                <p class="card-text" th:text="${noticia.autor.nombre}" ><small>Last updated 3 mins ago</small></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
 
 

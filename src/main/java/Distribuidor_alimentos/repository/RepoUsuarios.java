@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface RepoUsuarios extends CrudRepository<Usuario,String> {
-    List<Usuario> findAllByTokenPassword(String token);
+    Optional<Usuario> findByTokenPassword(String token);
 }

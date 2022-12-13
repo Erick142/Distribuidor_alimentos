@@ -5,73 +5,95 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <title>home</title>
     <link th:href="@{css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
-    <div th:replace="/fragments/navbar :: navbarSesionIniciada "></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3 p-2 m-2" style="border-radius: 15px; text-align: center; background-color: #ECECEC;">
-                <p class="my-auto py-3" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${username}"></b></p>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style="width: max-content">
-                    enlaces pendientes
-                </button>
+<div th:replace="/fragments/navbar :: navbarSesionIniciada "></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-lg-3 p-4">
+            <div class="p-2" style="border-radius: 15px; background-color: #ECECEC;">
+                <p class="my-auto py-3 text-center" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b
+                        style="color: #F27272;" th:text="${username}"></b></p>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"
+                            style="width: max-content">
+                        enlaces pendientes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 col-lg-3 p-4">
+            <div class="p-3 mb-3"
+                 style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
+                <div class="row row-cols-2">
+                    <img class="col" src="img/menu2.png" alt="menu">
+                    <form class="col row row-cols-1 g-0" action="vermenus" method="get">
+                        <div class="col text-center fw-bold fs-4 pt-4" style="color: white">Nuevo Menú</div>
+                        <div class="col text-center pb-3">
+                            <button class="btn px-4"
+                                    style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">
+                                Agregar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="p-3"
+                 style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
+                <div class="row row-cols-1">
+                    <div class="col text-center mb-4 fw-bold fs-4" style="color: white;">Nueva
+                        Noticia
+                    </div>
+                    <img class="col mx-auto" src="img/newspaper.png" alt="noticia">
+                    <div class="col my-4">
+                        <form class="text-center" action="noticia/crear" method="get">
+                            <button class="btn px-4"
+                                    style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">
+                                Crear
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
 
-                <div class="row">
-                    <div class="col-3 mx-4" style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
-                        <div class="row">
-                            <div class="col-auto mx-auto my-4" style="font-size: 1.5em; font-weight: bold; color: white;">Nueva Noticia</div>
-                        </div>
-                        <div class="row">
-                            <img class="col-auto mx-auto" src="img/newspaper.png" style="height: 230px;" alt="">
-                        </div>
-                        <div class="row">
-                            <div class="col-auto mx-auto my-4">
-                                <form action="noticia/crear" method="get">
-                                    <button class="btn px-4" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Crear</button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!--boton provisorio para agregar menú-->
-                        <div class="col-auto mx-auto my-4">
-                            <form action="vermenus" method="get">
-                                <label>Nuevo Menú</label>
-                                <button class="btn px-4" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Agregar</button>
-                            </form>
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="col-7 mx-auto">
-                        <div class="row">
-                            <legend class="col-6" style="color: #F27272;">Ultimos pedidos de tus instituciones</legend>
-                        </div>
-                        <div class="row scrollred" style="height: 290px; overflow: hidden;overflow-y: scroll;">
-                            <div class="col-12">
-                                <div class="row py-2 my-2 align-items-center justify-content-center" style="border-radius: 15px; background-color: #F27272;" th:each="pedido:${pedidos}">
-                                    <div class="col-2" style="color: white; text-align: center;">
-                                        Fecha
-                                    </div>
-                                    <div class="col-3" style="background-color: white; color:#F27272; text-align: center; border-radius: 15px;" th:text="${pedido.fecha}"></div>
-                                    <div class="col-3" style="color: white; text-align: end;" th:text="${pedido.usuario.getNombre()}"></div>
-                                    <div class="col-4" style="display: flex; justify-content:flex-end" th:if="${pedido.isRectificado()}">
-                                        <a href="estadisticas">
-                                            <button class="btn px-4"   style="background-color: white; border:none; color: #F27272; border-radius: 14px; ">Ver estadisticas</button>
-                                        </a>
-                                    </div>
-                                    <div class="col-4" style="color: white;display: flex; justify-content: flex-end;" th:if="${!pedido.isRectificado()}">
-                                        Aun no rectificado
-                                    </div>
+        <div class="col-12 col-lg-7 mx-auto">
+            <div class="row row-cols-1">
+                <div class="col text-center fs-3" style="color: #F27272;">Ultimos pedidos de tus instituciones</div>
+                <div class="col scrollred h-100" style="overflow: hidden;overflow-y: scroll;">
+                    <div class="row row-cols-1">
+                        <div th:if="${pedidos.isEmpty()}" class="col text-center">no han realizado ningun pedido, por ahora.</div>
+                        <div class="col py-2 my-2 align-items-center justify-content-center" style="border-radius: 15px; background-color: #F27272;" th:each="pedido:${pedidos}">
+                            <div class="row">
+                                <div class="col-2" style="color: white; text-align: center;">
+                                    Fecha
+                                </div>
+                                <div class="col-3"
+                                     style="background-color: white; color:#F27272; text-align: center; border-radius: 15px;"
+                                     th:text="${pedido.getFechaCreacion()}"></div>
+                                <div class="col-3" style="color: white; text-align: end;"
+                                     th:text="${pedido.usuario.getNombre()}"></div>
+                                <div class="col-4" style="display: flex; justify-content:flex-end"
+                                     th:if="${pedido.isRectificado()}">
+                                    <a href="estadisticas">
+                                        <button class="btn px-4"
+                                                style="background-color: white; border:none; color: #F27272; border-radius: 14px; ">
+                                            Ver estadisticas
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="col-4" style="color: white;display: flex; justify-content: flex-end;"
+                                     th:if="${!pedido.isRectificado()}">
+                                    Aun no rectificado
                                 </div>
                             </div>
                         </div>
@@ -79,28 +101,31 @@
                 </div>
             </div>
         </div>
-
-
-        <div th:replace="/fragments/carruselNoticias :: carruselNoticias"></div>
     </div>
 
 
+    <div th:replace="/fragments/carruselNoticias :: carruselNoticias"></div>
+</div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enlaces</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div th:if="${enlaces.isEmpty()}">usted no tiene ningun enlace en espera</div>
-            <form th:if="${!enlaces.isEmpty()}" th:each="enlace:${enlaces}" th:action="'/enlace/resolucion?id='+${enlace.getId()}" method="post">
-                <b th:text="${enlace.getInstitucion().email}"></b>
-                <button class="btn btn-success" type="submit" name="seleccion" value="aceptado">aceptar</button>
-                <button class="btn btn-danger" type="submit" name="seleccion" value="rechazado">rechazar</button>
-            </form>
-        </div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enlaces</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <div class="offcanvas-body">
+        <div th:if="${enlaces.isEmpty()}">usted no tiene ningun enlace en espera</div>
+        <form th:if="${!enlaces.isEmpty()}" th:each="enlace:${enlaces}"
+              th:action="'/enlace/resolucion?id='+${enlace.getId()}" method="post">
+            <b th:text="${enlace.getInstitucion().email}"></b>
+            <button class="btn btn-success" type="submit" name="seleccion" value="aceptado">aceptar</button>
+            <button class="btn btn-danger" type="submit" name="seleccion" value="rechazado">rechazar</button>
+        </form>
+    </div>
+</div>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -34,14 +34,14 @@ public class ControladorUsuarios {
                             @RequestParam(name = "password",defaultValue = "null")String password,
                             @RequestParam(name = "distribuidor",required = false)boolean esDistribuidor){
         servicioUsuarios.guardar(new Usuario(nombre,email,password,(esDistribuidor==true)?"distribuidor":"institucion"));
-        return "redirect:confirmacion";
+        return "redirect:../confirmacion";
     }
     @PostMapping("/recuperar")
     public String recuperar(@RequestParam(name = "email",defaultValue = "null") String email){
         if (!email.equals("null")){
             mailSend.enviarEmail(email);
         }
-        return "redirect:/";
+        return "redirect:../";
     }
     @GetMapping("/cambiar_contraseña")
     public String cambiarContraseña(@RequestParam(name = "token") String token,Model model){
@@ -51,7 +51,7 @@ public class ControladorUsuarios {
     @PostMapping("/actualizarcontraseña")
     public String actualizarContraseña(@RequestParam(name = "token") String token,
                                        @RequestParam(name = "contraseña") String password){
-        Usuario usuario=servicioUsuarios.encontrarPorToken(token).get(0);
+        Usuario usuario=servicioUsuarios.encontrarPorToken(token).get();
         usuario.setPassword(password);
         usuario.setTokenPassword(null);
         servicioUsuarios.guardar(usuario);

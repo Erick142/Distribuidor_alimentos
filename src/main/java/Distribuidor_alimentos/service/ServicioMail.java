@@ -26,7 +26,7 @@ public class ServicioMail {
         String token;
         do {
             token= RandomString.make(30);
-        }while (!usuarios.encontrarPorToken(token).isEmpty());
+        }while (usuarios.encontrarPorToken(token).isPresent());
         return token;
     }
     public SimpleMailMessage crearEmail(String toEmail, String token){

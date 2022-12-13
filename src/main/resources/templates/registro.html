@@ -12,7 +12,7 @@
 <body>
     <div th:replace="/fragments/navbar :: navbar"></div>
     <div class="container w-50 my-5 pb-2" style="border-radius: 30px; background-color: #ECECEC;">
-        <form action="/usuario/registrar" method="post" >
+        <form th:action="@{'usuario/registrar'}" method="post" >
             <legend style="text-align: center;" class="my-3 ">Registro</legend>
             <div class="row my-3 justify-content-center">
                 <label for="inputUser" class="col-3">Nombre de institucion</label>
@@ -36,8 +36,10 @@
                 <label class="form-check-label col-3 mt-1" for="distribuidor">Soy distribuidor</label>
                 <input type="checkbox" class="form-check-input col-8 ms-4 pt-4" name="distribuidor" id="distribuidor">
             </div>
-            <div class="row my-3 ">
-                <button type="submit" class="col-2 py-2 mx-auto" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Registrarse</button>
+            <div class="row my-3">
+                <div class="text-center">
+                    <button type="submit" class="py-2" style="background-color: #FB4E4E; border:none; color: white; border-radius: 14px; ">Registrarse</button>
+                </div>
             </div>
         </form>
     </div>

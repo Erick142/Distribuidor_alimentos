@@ -29,21 +29,21 @@ public class ControladorEnlace {
         //si el distribuidor no existe
         if (servicioUsuarios.obtener(emailDestinatario)==null){
             model.addAttribute("error","la institucion ingresada no existe");
-            return "redirect:home";
+            return "redirect:../home";
         }
         Usuario distribuidor=servicioUsuarios.obtener(emailDestinatario);
         //si el rol del usuario al que se le envio el enlace no es distribuidor
         if (distribuidor.getRoles().equals("institucion")){
             model.addAttribute("error","solo puede solicitar enlace con distribuidores");
-            return "redirect:home";
+            return "redirect:../home";
         }
         //ya tiene enlace
         if (servicioEnlace.encontrarEnlacePorDistribuidorEInstitucion(distribuidor,usuario).isPresent()){
-            return "redirect:home";
+            return "redirect:../home";
         }
         servicioEnlace.guardarEnlace(new Enlace(distribuidor,usuario,"en espera"));
         model.addAttribute("resultadoDeEnlace","Enlace solicitado satisfactoriamente");
-        return "redirect:home";
+        return "redirect:../home";
     }
     @PostMapping("/resolucion")
     public String resolucion(@RequestParam(name = "seleccion") String seleccion,
@@ -69,11 +69,11 @@ public class ControladorEnlace {
             enlace.setEstado("rechazado");
             servicioEnlace.guardarEnlace(enlace);
         }
-        return "redirect:home";
+        return "redirect:../home";
     }
     @PostMapping("/eliminarenlace")
     public String eliminar(Principal principal){
         servicioEnlace.eliminarEnlace(servicioEnlace.encontrarEnlacePorInstitucion(servicioUsuarios.obtener(principal.getName())).get());
-        return "redirect:home";
+        return "redirect:../home";
     }
 }

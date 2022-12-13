@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public abstract class ServicioPedidos implements RepoPedido {
+public class ServicioPedidos  {
+    @Autowired
+    private RepoPedido repoPedido;
     @Autowired
     private RepoUsuarios repo;
 

@@ -9,6 +9,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -22,32 +26,28 @@ public class UsuarioTest {
     @DisplayName("crear usuarios")
     @ValueSource(strings = {"erickkk@gmail.com","jorgeee@gmail.com","algo@gmail.com"})
     public void crearUsuario(String string){
+        if (usuarios.existePorEmail(string)){
+            usuarios.eliminar(usuarios.obtener(string));
+        }
         usuarios.guardar(new Usuario("nombre",string,"password","distribuidor"));
         Usuario usuarioObtenido=usuarios.obtener(string);
         assertTrue(usuarios.existePorEmail(string));
         assertFalse(usuarioObtenido.getEmail().equals(123213));
-        assertNull(usuarioObtenido);
+        assertNotNull(usuarioObtenido);
         assertEquals("distribuidor",usuarioObtenido.getRoles());
 
-    }
-    @AfterEach
-    @ParameterizedTest
-    @ValueSource(strings = {"erickkk@gmail.com","jorgeee@gmail.com","algo@gmail.com"})
-    public void after(String string){
-        if (usuarios.existePorEmail(string)){
-            usuarios.eliminar(usuarios.obtener(string));
-        }
     }
     @RepeatedTest(3)
     @DisplayName("encontrar por token")
     public void token(){
-        Usuario usuario=usuarios.guardar(new Usuario("nombre","erickkk@gmail.com","password","distribuidor"));
+        Usuario usuario=new Usuario("nombre","erickkk@gmail.com","password","distribuidor");
         String token=mail.crearToken();
         usuario.setTokenPassword(token);
+        usuarios.guardar(usuario);
         assertNotNull(usuarios.encontrarPorToken(token));
-        assertEquals(token,usuarios.encontrarPorToken(token).get(0).getTokenPassword());
-        assertFalse(!usuarios.encontrarPorToken(token).get(0).getEmail().equals("erickkk@gmail.com"));
-        assertTrue(usuarios.encontrarPorToken(token).get(0).getNombre().equals("nombre"));
+        assertEquals(token,usuarios.encontrarPorToken(token).get().getTokenPassword());
+        assertFalse(!usuarios.encontrarPorToken(token).get().getEmail().equals("erickkk@gmail.com"));
+        assertTrue(usuarios.encontrarPorToken(token).get().getNombre().equals("nombre"));
     }
     @Test
     @DisplayName("Eliminar Usuario")

@@ -8,8 +8,11 @@
     <div th:replace="/fragments/navbar :: navbarSesionIniciada"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 ms-4 my-3 px-auto" style="border-radius: 15px; text-align: center; background-color: #ECECEC;">
-                <p class="my-auto py-3" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${username}"></b></p>
+            <div class="col col-lg-3 p-4">
+                <div class="p-2" style="border-radius: 15px; background-color: #ECECEC;">
+                    <p class="my-auto py-3 text-center" style="font-weight: 600; font-size:1.5em;">Bienvenido/a, <b style="color: #F27272;" th:text="${username}"></b></p>
+
+                </div>
             </div>
             <div class="dropdown" th:if="${!enlace.isPresent()||!enlace.get().getEstado().equals('aceptado')}">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -35,26 +38,26 @@
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-3 mx-4" style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
-                        <div class="row">
-                            <div class="col-auto mx-auto my-4" style="font-size: 1.5em; font-weight: bold; color: white;">Nuevo Pedido</div>
-                        </div>
-                        <div class="row">
-                            <img class="col-auto mx-auto" src="img/menu.png" alt="menu icon" style="height: 230px;">
-                        </div>
-                        <div class="row">
-                            <div class="col-auto mx-auto my-4">
-                                <form action="nuevoPedido" method="get">
-                                    <button class="btn px-4" th:if="${enlace.isPresent()&&enlace.get().getEstado().equals('aceptado')}"  style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Ingresar</button>
-                                    <button class="btn px-4"  th:if="${!enlace.isPresent()||!enlace.get().getEstado().equals('aceptado')}" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; "><a style="text-decoration: none;color: rgba(96,113,45,1)" href="#">necesita enlazarse a un distribuidor</a></button>
-                                </form>
+        <div class="row row-cols-1 row-cols-md-2">
+                    <div class="col p-3 col-md-3">
+                        <div class="row" style="background: linear-gradient(180deg, rgba(178,191,78,1) 0%, rgba(96,113,45,1) 100%); border-radius: 20px;">
+                            <div class="row">
+                                <div class="col-auto mx-auto my-4" style="font-size: 1.5em; font-weight: bold; color: white;">Nuevo Pedido</div>
+                            </div>
+                            <div class="row">
+                                <img class="col-auto mx-auto" src="img/menu.png" alt="menu icon" style="height: 230px;">
+                            </div>
+                            <div class="row">
+                                <div class="col-auto mx-auto my-4">
+                                    <form action="nuevoPedido" method="get">
+                                        <button class="btn px-4" th:if="${enlace.isPresent()&&enlace.get().getEstado().equals('aceptado')}"  style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; ">Ingresar</button>
+                                        <div class="btn px-4"  th:if="${!enlace.isPresent()||!enlace.get().getEstado().equals('aceptado')}" style="background-color: white; border:none; color: rgba(96,113,45,1); border-radius: 14px; "><a style="text-decoration: none;color: rgba(96,113,45,1)" href="#">necesita enlazarse a un distribuidor</a></div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-7 mx-auto">
+                    <div class="col col-md-9">
                         <div class="row">
                             <legend class="col-5" style="color: #F27272;">Historial de pedidos</legend>
                         </div>
@@ -80,8 +83,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
         </div>
 
         <div class="p-5" th:insert="/fragments/carruselNoticias :: carruselNoticias">

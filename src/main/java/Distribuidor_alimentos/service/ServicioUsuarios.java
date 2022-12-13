@@ -34,8 +34,8 @@ public class ServicioUsuarios {
     public Usuario obtener(String email){
         return repo.findById(email).get();
     }
-    public List<Usuario> encontrarPorToken(String token){
-        return repo.findAllByTokenPassword(token);
+    public Optional<Usuario> encontrarPorToken(String token){
+        return repo.findByTokenPassword(token);
     }
     public void eliminar(Usuario usuario){
         repo.delete(usuario);
